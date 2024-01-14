@@ -101,3 +101,61 @@ https://www.figma.com/file/AkZOpf1wkbdog1Dg8NHUH8/%E8%AA%B2%E9%A1%8C?type=design
 13. **ポップアップ画面**（１２→１３）：相手のLINEへ送信しますか。ボタン「送信する（６へ）」「送信しない（６へ）」
 14. **パートナーの記録**（７→１４）：共有（EmoBridge）した相手の記録がリスト表示されます。
 15. **自身の記録**（７→１５）：自身の記録がリスト表示されます。
+
+## ER図
+https://gyazo.com/240e0237365d7bd5ad4be0bc55d96b8e
+
+1. **Usersテーブル**
+- id (integer): ユーザーID。
+- name (string): ユーザー名。
+- display_name (string): 表示名。
+- email (string): ユーザーのメールアドレス。
+- password (string): ユーザーのパスワード。
+- salt (string): ユーザーのパスワード。
+- avatar (string): ユーザーのアイコン画像。
+2. **Emotionsテーブル**
+- id (integer): 感情記録のID。
+- user_id (integer): この感情記録を作成したユーザーのID。
+- emotion (string): ユーザーが選択した感情を表す顔文字。
+- emotion_score (integer): 顔文字にリンクした数値。追加機能の感情分析で使用予定。
+- timestamp (datetime): 感情記録が作成された日時。
+3. **Categoriesテーブル**
+- id (integer): カテゴリーのID。
+- name (string): カテゴリーの名前。
+4. **UserCategoriesテーブル**
+- id (integer): ユーザーカテゴリーのID。
+- user_id (integer): このカテゴリーを設定したユーザーのID。
+- category_id (integer): ユーザーが設定したカテゴリーのID。
+5. **EmotionCategoriesテーブル**
+- id (integer): 感情カテゴリーのID。
+- emotion_id (integer): このカテゴリー評価が関連する感情記録のID。
+- user_category_id (integer): 評価されたユーザーカテゴリーのID。
+- rating (integer): ユーザーが選択したカテゴリーの評価（1から5まで）。
+6. **Messagesテーブル**
+- id (integer): メッセージのID。
+- emotion_id (integer): このメッセージが関連する感情記録のID。
+- message (text): ユーザーが入力するメッセージ。
+7. **UserMessagesテーブル**
+- id (integer): ユーザーメッセージのID。
+- user_id (integer): このメッセージを設定したユーザーのID。
+- message_id (integer): ユーザーが設定したメッセージのID。
+8. **Sharesテーブル**
+- id (integer): パートナー関係のID。
+- user_id (integer): パートナー関係を設定したユーザーのID。
+- partner_id (integer): ユーザーがパートナーとして設定したユーザーのID。
+9. **Invitationsテーブル**
+- id (integer): 招待のID。
+- sender_id (integer): 招待を送ったユーザーのID。
+- receiver_id (integer): 招待を受け取ったユーザーのID。
+- status (string): 招待の状態。
+10. **Notificationsテーブル**
+- id (integer): 通知のID。
+- user_id (integer): 通知を受け取るユーザーのID。
+- partner_id (integer): 通知を送るパートナーのID。
+- emotion_id (integer): 通知が関連する感情記録のID。
+- status (string): 通知の状態。
+11. **Likesテーブル（追加機能予定）**
+- id (integer): いいねのID。
+- sender_id (integer): いいねを送ったユーザーのID。
+- receiver_id (integer): いいねを受け取ったユーザーのID。
+- count (integer): いいねの数。
