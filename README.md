@@ -103,7 +103,7 @@ https://www.figma.com/file/AkZOpf1wkbdog1Dg8NHUH8/%E8%AA%B2%E9%A1%8C?type=design
 15. **自身の記録**（７→１５）：自身の記録がリスト表示されます。
 
 ## ER図
-https://gyazo.com/e862a746c76b34b20f0ab1801ae86542
+https://gyazo.com/e7c3ddec6faa4869ca1af3325bda82cc
 
 1. **Usersテーブル**
 ユーザーの情報の管理する（ログイン機能：sorceryを想定）
@@ -169,7 +169,6 @@ https://gyazo.com/e862a746c76b34b20f0ab1801ae86542
 - partner_id (integer): 通知を送るパートナーのID。
 - emotion_id (integer): 通知が関連する感情記録のID。
 - status (integer): 通知の状態。
-- message (text)：通知メッセージ。
 12. **Likesテーブル（追加機能予定）**
 感情記録に良いねをした際に、送ったユーザーと受けたユーザーを管理する
 - id (integer): いいねのID。
