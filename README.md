@@ -103,7 +103,7 @@ https://www.figma.com/file/AkZOpf1wkbdog1Dg8NHUH8/%E8%AA%B2%E9%A1%8C?type=design
 15. **自身の記録**（７→１５）：自身の記録がリスト表示されます。
 
 ## ER図
-https://gyazo.com/4328a0506e29a728f83aa8ebaef5f6dc
+https://gyazo.com/e862a746c76b34b20f0ab1801ae86542
 
 1. **Usersテーブル**
 ユーザーの情報の管理する（ログイン機能：sorceryを想定）
@@ -120,7 +120,6 @@ https://gyazo.com/4328a0506e29a728f83aa8ebaef5f6dc
 - user_id (integer): この感情記録を作成したユーザーのID。
 - feeling (string): ユーザーが選択した感情を表す顔文字。
 - feeling_score (integer): 顔文字にリンクした数値。追加機能の感情分析で使用予定。
-- timestamp (datetime): 感情記録が作成された日時。
 3. **Categoriesテーブル**
 感情評価のカテゴリー一覧を管理する
 - id (integer): カテゴリーのID。
@@ -152,7 +151,7 @@ https://gyazo.com/4328a0506e29a728f83aa8ebaef5f6dc
 メッセージのテンプレートを管理する
 - id (integer): メッセージテンプレートのID。
 - message (text): テンプレートメッセージ。
-9. **Sharesテーブル**
+9. **EmotionPartnersテーブル**
 感情記録を共有したパートナーとの関係を管理する
 - id (integer): パートナー関係のID。
 - user_id (integer): パートナー関係を設定したユーザーのID。
@@ -174,6 +173,6 @@ https://gyazo.com/4328a0506e29a728f83aa8ebaef5f6dc
 12. **Likesテーブル（追加機能予定）**
 感情記録に良いねをした際に、送ったユーザーと受けたユーザーを管理する
 - id (integer): いいねのID。
-- emotion_id (integer):いいねをする感情記録。
+- emotion_id (integer):いいねされた感情記録のID。
 - sender_id (integer): いいねを送ったユーザーのID。
 - receiver_id (integer): いいねを受け取ったユーザーのID。
