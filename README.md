@@ -103,59 +103,77 @@ https://www.figma.com/file/AkZOpf1wkbdog1Dg8NHUH8/%E8%AA%B2%E9%A1%8C?type=design
 15. **自身の記録**（７→１５）：自身の記録がリスト表示されます。
 
 ## ER図
-https://gyazo.com/240e0237365d7bd5ad4be0bc55d96b8e
+https://gyazo.com/4328a0506e29a728f83aa8ebaef5f6dc
 
 1. **Usersテーブル**
+ユーザーの情報の管理する（ログイン機能：sorceryを想定）
 - id (integer): ユーザーID。
 - name (string): ユーザー名。
 - display_name (string): 表示名。
 - email (string): ユーザーのメールアドレス。
-- password (string): ユーザーのパスワード。
+- crypted_password (string): ユーザーのパスワード。
 - salt (string): ユーザーのパスワード。
 - avatar (string): ユーザーのアイコン画像。
 2. **Emotionsテーブル**
+ユーザーの感情記録を管理する
 - id (integer): 感情記録のID。
 - user_id (integer): この感情記録を作成したユーザーのID。
-- emotion (string): ユーザーが選択した感情を表す顔文字。
-- emotion_score (integer): 顔文字にリンクした数値。追加機能の感情分析で使用予定。
+- feeling (string): ユーザーが選択した感情を表す顔文字。
+- feeling_score (integer): 顔文字にリンクした数値。追加機能の感情分析で使用予定。
 - timestamp (datetime): 感情記録が作成された日時。
 3. **Categoriesテーブル**
+感情評価のカテゴリー一覧を管理する
 - id (integer): カテゴリーのID。
 - name (string): カテゴリーの名前。
 4. **UserCategoriesテーブル**
+ユーザーが使用する感情評価カテゴリー一覧を管理
 - id (integer): ユーザーカテゴリーのID。
 - user_id (integer): このカテゴリーを設定したユーザーのID。
 - category_id (integer): ユーザーが設定したカテゴリーのID。
 5. **EmotionCategoriesテーブル**
+感情記録と感情評価カテゴリーの関係を管理する
 - id (integer): 感情カテゴリーのID。
 - emotion_id (integer): このカテゴリー評価が関連する感情記録のID。
 - user_category_id (integer): 評価されたユーザーカテゴリーのID。
 - rating (integer): ユーザーが選択したカテゴリーの評価（1から5まで）。
-6. **Messagesテーブル**
+6. **EmotionMessagesテーブル**
+感情記録と伝えたいことの関係を管理する
 - id (integer): メッセージのID。
+- user_id (integer): このメッセージを設定したユーザーのID。
 - emotion_id (integer): このメッセージが関連する感情記録のID。
+- user_template_id (integer): ユーザー指定するメッセージテンプレート。
 - message (text): ユーザーが入力するメッセージ。
-7. **UserMessagesテーブル**
+7. **UserTemplatesテーブル**
+ユーザーがセットしているテンプレートを管理する
 - id (integer): ユーザーメッセージのID。
 - user_id (integer): このメッセージを設定したユーザーのID。
-- message_id (integer): ユーザーが設定したメッセージのID。
-8. **Sharesテーブル**
+- message_template_id (integer): ユーザーが設定したメッセージテンプレートのID。
+8. **MessageTemplatesテーブル**
+メッセージのテンプレートを管理する
+- id (integer): メッセージテンプレートのID。
+- message (text): テンプレートメッセージ。
+9. **Sharesテーブル**
+感情記録を共有したパートナーとの関係を管理する
 - id (integer): パートナー関係のID。
 - user_id (integer): パートナー関係を設定したユーザーのID。
 - partner_id (integer): ユーザーがパートナーとして設定したユーザーのID。
-9. **Invitationsテーブル**
+10. **Invitationsテーブル**
+ユーザーが共有したいパートナーを招待する際の状態を管理する
 - id (integer): 招待のID。
 - sender_id (integer): 招待を送ったユーザーのID。
 - receiver_id (integer): 招待を受け取ったユーザーのID。
-- status (string): 招待の状態。
-10. **Notificationsテーブル**
+- status (integer): 招待の状態。
+11. **Notificationsテーブル**
+感情記録の通知を誰が受け取り、誰がそれを送ったか、通知状態を管理する
 - id (integer): 通知のID。
 - user_id (integer): 通知を受け取るユーザーのID。
 - partner_id (integer): 通知を送るパートナーのID。
 - emotion_id (integer): 通知が関連する感情記録のID。
-- status (string): 通知の状態。
-11. **Likesテーブル（追加機能予定）**
+- status (integer): 通知の状態。
+- message (text)：通知メッセージ。
+12. **Likesテーブル（追加機能予定）**
+感情記録に良いねをした際に、送ったユーザーと受けたユーザーを管理する
 - id (integer): いいねのID。
+- emotion_id (integer):いいねをする感情記録。
 - sender_id (integer): いいねを送ったユーザーのID。
 - receiver_id (integer): いいねを受け取ったユーザーのID。
-- count (integer): いいねの数。
