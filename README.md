@@ -87,7 +87,7 @@ EmoBridgeでは、アプリのステータス画面から自身の感情を顔�
 https://www.figma.com/file/AkZOpf1wkbdog1Dg8NHUH8/%E8%AA%B2%E9%A1%8C?type=design&node-id=0%3A1&mode=design&t=pEkxj7krkbQMIfUS-1
 
 1. **ログイン画面**：ユーザーがアプリにログインします。フォームは「メールアドレス」「パスワード」。ボタンは「ログイン（４へ）」、「サインアップ（２へ）」。リンク「パスワードをお忘れた（３へ）」。ヘッダー「ログイン（１へ）」「サインアップ（２へ）」
-2. **サインアップ画面**（１→２）：入力フォーム画面「名前」「表示名」「メールアドレス」「パスワード」「パスワード確認」、「私は利用規約（４へ）とプライバシーポリシー（５へ）に同意します。」
+2. **サインアップ画面**（１→２）：入力フォーム画面「名前」「メールアドレス」「パスワード」「パスワード確認」、「私は利用規約（４へ）とプライバシーポリシー（５へ）に同意します。」
 3. **仮パスワード送信画面**（１→３）：フォームは「メールアドレス」。ボタン「送信する」。
 4. **利用規約画面**（２→４）：利用規約を表示。
 5. **プライバシーポリシー**（２→５）：プライバシーポリシーを表示。
@@ -103,13 +103,12 @@ https://www.figma.com/file/AkZOpf1wkbdog1Dg8NHUH8/%E8%AA%B2%E9%A1%8C?type=design
 15. **自身の記録**（７→１５）：自身の記録がリスト表示されます。
 
 ## ER図
-https://gyazo.com/e7c3ddec6faa4869ca1af3325bda82cc
+[![Image from Gyazo](https://i.gyazo.com/12bcc494376bd622c895c1a9ec705790.png)](https://gyazo.com/12bcc494376bd622c895c1a9ec705790)
 
 1. **Usersテーブル**
 ユーザーの情報の管理する（ログイン機能：sorceryを想定）
 - id (integer): ユーザーID。
 - name (string): ユーザー名。
-- display_name (string): 表示名。
 - email (string): ユーザーのメールアドレス。
 - crypted_password (string): ユーザーのパスワード。
 - salt (string): ユーザーのパスワード。
