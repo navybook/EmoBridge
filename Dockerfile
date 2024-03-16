@@ -20,7 +20,7 @@ FROM base as build
 # Install packages needed to build gems and Node.js
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config curl && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \ # Node.js 14のセットアップスクリプトをダウンロードして実行
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs
 
 # Install application gems
