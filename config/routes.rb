@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'tops/index'
   resources :users, only: %i[new create]
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
@@ -10,5 +11,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  root 'user_sessions#new'
+  root 'tops#index'
 end

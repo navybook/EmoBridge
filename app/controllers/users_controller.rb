@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to login_path, success: 'ユーザー登録が完了しました', status: :see_other
     else
-      flash.now[:danger] = 'ユーザー登録が失敗しました'
+      flash.now[:error] = 'ユーザー登録が失敗しました'
       render :new, status: :unprocessable_entity
     end
   end
