@@ -1,0 +1,62 @@
+<div class='w-5/6 mx-auto max-w-screen-xl'>
+  <div class="container mx-auto p-4">
+  <h1 class="text-center text-3xl font-bold py-6">Emotion記録</h1>
+    <div class="p-10 shadow-lg rounded-lg bg-white max-w-2xl mx-auto">
+      <!-- フォーム -->
+      <%= form_with model: @emotion, local: true, data: { controller: "toggle-form" } do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <!-- 自身の感情記録を入力 -->
+        <div class="flex justify-around mb-4 text-2xl" data-controller="emotion">
+          <i class="fa-regular fa-face-laugh-beam" data-value="laugh" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;" ></i>
+          <i class="fa-regular fa-face-smile-beam" data-value="smile" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
+          <i class="fa-regular fa-face-grin-wide" data-value="grin" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
+          <i class="fa-regular fa-face-tired" data-value="tired" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
+          <i class="fa-regular fa-face-dizzy" data-value="dizzy" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
+          <%= f.hidden_field :feeling, id: "emotion_feeling", data: { emotion_target: 'feeling' } %>
+        </div>
+
+        <!-- 感情評価を入力 -->
+        <%= f.fields_for :emotion_categories do |category_form| %>
+          <div class="mb-4">
+            <%= category_form.label :rating, "評価", class: "block text-base font-medium text-gray-700" %>
+            <%= category_form.select :user_category_id, options_for_select(@user_categories), { prompt: "選択してください" }, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <div data-controller="rating">
+              <%= category_form.hidden_field :rating, id: "rating_value" %>
+              <div class="flex justify-between py-4" >
+                <i class="far fa-star" id="rating-container" data-rating-target="star" data-action="click->rating#updateRating" data-value="1" style="cursor: pointer;"></i>
+                <i class="far fa-star" id="rating-container" data-rating-target="star" data-action="click->rating#updateRating" data-value="2" style="cursor: pointer;"></i>
+                <i class="far fa-star" id="rating-container" data-rating-target="star" data-action="click->rating#updateRating" data-value="3" style="cursor: pointer;"></i>
+                <i class="far fa-star" id="rating-container" data-rating-target="star" data-action="click->rating#updateRating" data-value="4" style="cursor: pointer;"></i>
+                <i class="far fa-star" id="rating-container" data-rating-target="star" data-action="click->rating#updateRating" data-value="5" style="cursor: pointer;"></i>
+              </div>
+              <div id="rating-container" class="mt-2"></div>
+              <div class="flex justify-between text-xs mt-1">
+                <span>悪い</span>
+                <span>良い</span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- 伝えたいことを入力 -->
+        <%= f.fields_for :emotion_message do |message_form| %>
+          <%= message_form.hidden_field :user_id, value: current_user.id %>
+          <div class="mb-4">
+            <%= message_form.label :user_template_id, "伝えたいメッセージを選択", class: "block text-base font-medium text-gray-700" %>
+            <%= message_form.select :user_template_id, options_for_select(@user_message_templates), { prompt: "選択してください" }, { class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", data: { "toggle-form-target": "select", action: "change->toggle-form#toggleForm" } } %>
+          </div>
+
+          <div data-toggle-form-target="messageForm" class="hidden mb-5">
+            <%= message_form.text_area :message, class: "mt-5 block w-full" %>
+          </div>
+        <% end %>
+        
+        <!-- 記録ボタン -->
+        <div class="flex justify-center mb-4">
+          <%= f.submit "記録", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

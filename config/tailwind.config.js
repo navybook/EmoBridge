@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       fontFamily: {
         vibes: ['Great Vibes'],
+        yomogi: ['Yomogi'],
       },
     },
   },
