@@ -1,0 +1,9 @@
+<%= form_with model: template do |f| %>
+  <div class="flex items-center justify-between mb-2">
+    <%= f.text_field :message ,class: "text-xs sm:text-base" %>
+    <div class="justify-end">
+      <%= f.submit "更新", class: "bg-blue-500 hover:bg-blue-700 text-white text-xs sm:text-base font-bold py-1 px-2 rounded" %>
+      <%= link_to "キャンセル", mypage_path, class: "bg-gray-300 hover:bg-gray-500 text-white text-xs sm:text-base font-bold py-1 px-2 rounded" %>
+    </div>
+  </div>
+<% end %>
