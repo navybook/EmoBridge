@@ -16,11 +16,13 @@
     <%= render 'shared/before_login_header' %>
   <% end %>
     <%= render 'shared/flash_message' %>
-    <main class="pb-12">
-    <%= yield %>
-    </main>
+  <main class="pb-12">
+      <%= yield %>
+  </main>
   <% if logged_in? %>
     <%= render 'shared/footer' %>
+  <% else %>
+    <%= render 'shared/before_login_footer' %>
   <% end %>
   </body>
 </html>
