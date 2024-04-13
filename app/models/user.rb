@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :emotion_messages, dependent: :destroy
   has_many :user_templates, dependent: :destroy
   has_many :message_templates, through: :user_templates
+  mount_uploader :avatar, AvatarUploader
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: true
@@ -24,7 +25,7 @@ class User < ApplicationRecord
   def assign_default_categories
     default_categories = ['仕事', '家事', '趣味']
     default_categories.each do |category_name|
-      category = Category.find_or_create_by(name: category_name)
+      category = Category.create(name: category_name)
       # UserCategoryを介してUserとCategoryを関連付ける
       user_categories.create(category: category)
     end
@@ -38,7 +39,7 @@ class User < ApplicationRecord
       'その他'
     ]
     default_messages.each do |message|
-      message_template = MessageTemplate.find_or_create_by(message: message)
+      message_template = MessageTemplate.create(message: message)
       # UserTemplateを作成してUserとMessageTemplateを関連付ける
       user_templates.create(message_template: message_template)
     end
