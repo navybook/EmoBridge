@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :emotion_messages, dependent: :destroy
   has_many :user_templates, dependent: :destroy
   has_many :message_templates, through: :user_templates
+  has_many :authentications, dependent: :destroy
+  accepts_nested_attributes_for :authentications
   mount_uploader :avatar, AvatarUploader
 
   validates :name, presence: true, length: { maximum: 255 }

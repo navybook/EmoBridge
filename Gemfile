@@ -45,7 +45,7 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # Authentication
-gem 'sorcery'
+gem 'sorcery', '0.16.5'
 
 # CSS/JSのフレームワーク
 gem "tailwindcss-rails"
@@ -53,6 +53,13 @@ gem "tailwindcss-rails"
 # 画像挿入
 gem 'carrierwave', '~> 2.0'
 gem "mini_magick"
+
+# LINE連携
+gem 'omniauth'
+gem 'omniauth-line'
+
+# 環境変数管理
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
