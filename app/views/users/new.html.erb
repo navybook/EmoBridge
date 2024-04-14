@@ -27,6 +27,9 @@
               <%= f.submit "サインアップ", class: "px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700" %>
             </div>
           <% end %>
+          <div class="mt-4 flex justify-center">
+            <%= link_to 'Login with Line', auth_at_provider_path(provider: :line), class: "px-4 py-2 rounded bg-green-300 text-black hover:bg-green-600" %>
+          </div>
         </div>
       </div>
     </div>
