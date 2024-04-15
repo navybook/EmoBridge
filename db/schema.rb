@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_14_081132) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_15_141339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_14_081132) do
     t.index ["user_template_id"], name: "index_emotion_messages_on_user_template_id"
   end
 
+  create_table "emotion_partners", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "partner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_emotion_partners_on_user_id", unique: true
+  end
+
   create_table "emotions", force: :cascade do |t|
     t.string "feeling", null: false
     t.integer "feeling_score"
@@ -59,6 +67,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_14_081132) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_emotions_on_user_id"
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.integer "status", default: 0
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_invitations_on_receiver_id"
+    t.index ["sender_id"], name: "index_invitations_on_sender_id"
   end
 
   create_table "message_templates", force: :cascade do |t|
@@ -94,7 +113,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_14_081132) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "line_user_id"
+    t.string "unique_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["unique_id"], name: "index_users_on_unique_id", unique: true
   end
 
   add_foreign_key "emotion_categories", "emotions"
