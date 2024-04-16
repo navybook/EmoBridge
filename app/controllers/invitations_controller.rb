@@ -30,8 +30,17 @@ class InvitationsController < ApplicationController
 
   def generate_unique_id
     user = current_user
-    user.update(unique_id: SecureRandom.hex(4).upcase) unless user.unique_id.present?
-    redirect_to new_invitation_path, success: 'IDを発行しました。'
+    # ユーザーが既にunique_idを持っていない場合のみ更新する
+    if user.unique_id.blank?
+      # updateメソッドの戻り値がtrueかfalseかで条件分岐
+      if user.update(unique_id: SecureRandom.hex(4).upcase)
+        redirect_to new_invitation_path, success: 'IDを発行しました。'
+      else
+        redirect_to new_invitation_path, error: 'IDの更新に失敗しました。ユーザー情報が不足してます'
+      end
+    else
+      redirect_to new_invitation_path, notice: '既にIDが発行されています。'
+    end
   end
 
   def destroy
