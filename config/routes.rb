@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   post "oauth/callback", to: "oauths#callback"
   get "oauth/callback", to: "oauths#callback"
   get "oauth/:provider", to: "oauths#oauth", as: :auth_at_provider
+  resources :invitations, only: %i[new create destroy] do
+    post 'generate_unique_id', on: :collection
+    patch :approve, on: :member
+  end
+  resources :emotion_partners, only: %i[destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -1,0 +1,41 @@
+<div class='w-full mx-auto max-w-screen-xl'>
+  <div class="container mx-auto">
+    <h1 class="text-center text-3xl font-bold my-8">プロフィール</h1>
+    <div class="flex justify-center">
+      <div class="w-full max-w-md">
+        <div class="p-4 shadow-lg rounded-lg bg-white">
+          <div class="grid grid-cols-1 gap-4 items-center p-4">
+            <% if @user.unique_id.present? %>
+              <div class="mb-4">
+                <p class="text-center">現在のユーザーID: <%= @user.unique_id %></p>
+              </div>
+            <% else %>
+              <%= link_to 'IDを発行する',generate_unique_id_invitations_path ,class: 'flex items-center justify-center btn btn-primary block mb-4' ,data: { "turbo-method": :post } %>
+            <% end %>
+
+            <% if current_user.emotion_partner.present? %>
+              <div class="flex items-center justify-between mt-4">
+                <p class="justify-start text-sm sm:text-base">
+                あなたのパートナーは、<%= current_user.emotion_partner.partner.name %>です。
+                </p>
+                <div class="justify-end">
+                  <%= link_to '解除', emotion_partner_path(current_user.emotion_partner), data: { turbo_method: :delete, turbo_confirm: "本当に解除しますか？" }, class: "bg-red-500 hover:bg-red-700 text-white text-xs sm:text-base font-bold py-2 px-4 rounded" %>
+                </div>
+              </div>
+            <% else %>
+              <%= form_with model: Invitation.new, local: true do |f| %>
+                <%= render 'shared/error_messages', object: f.object %>
+                <div class="flex flex-col items-center">
+                  <%= f.label :unique_id, "招待コード", class: "mb-2" %>
+                  <%= f.text_field :unique_id, placeholder: "招待するパートナーのIDを入力", class: "mb-2 w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500" %>
+                  <%= f.submit "招待を送信する", class: "px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700" %>
+                </div>
+              <% end %>
+              <%= render partial: 'invitation', collection: @invitations, as: :invitation %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
