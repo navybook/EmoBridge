@@ -6,7 +6,7 @@ class Invitation < ApplicationRecord
 
   validates :status, presence: true
   validate :sender_receiver_different
-  validates :sender_id, uniqueness: { scope: :receiver_id }
+  validates :sender_id, uniqueness: { scope: [:receiver_id, :status] }
 
   private
 

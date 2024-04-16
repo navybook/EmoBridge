@@ -5,16 +5,19 @@ class EmotionsController < ApplicationController
     @emotion.build_emotion_message
 
     @user_categories = current_user.user_categories.map do |user_category|
-      [user_category.category.name, user_category.category_id]
+      [user_category.category.name, user_category.id]
     end
     @user_message_templates = current_user.user_templates.map do |user_template|
-      [user_template.message_template.message, user_template.message_template_id]
+      [user_template.message_template.message, user_template.id]
     end
   end
 
   def create
     @emotion = current_user.emotions.build(emotion_params)
     if @emotion.save
+      if params[:send_line_message] == "true"
+        SendLineMessageJob.perform_later(@emotion)
+      end
       redirect_to tops_home_path, success: 'Emotion記録が作成されました。', status: :see_other
     else
       @user_categories = current_user.user_categories.map do |user_category|

@@ -11,6 +11,7 @@ class InvitationsController < ApplicationController
       @invitation = Invitation.new(sender_id: current_user.id, receiver_id: invited_user.id, status: 0)
       
       if @invitation.save && !EmotionPartner.exists?(partner_id: invited_user.id)
+        SendLineMessageJob.perform_later(@invitation)
         redirect_to tops_home_path, success: '招待が送信されました。'
       else
         redirect_to new_invitation_path, error: 'このユーザーには招待を送信できません。'
