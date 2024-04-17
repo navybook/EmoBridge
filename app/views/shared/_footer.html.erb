@@ -6,13 +6,13 @@
         <i class="fas fa-home"></i>
       <% end %>
       <!-- My Page Icon -->
-      <a href="/my_page" class="text-blue-500 hover:underline">
-      <i class="fa-solid fa-user-pen"></i>
-      </a>
+      <%= link_to emotions_path, class: "text-blue-500 hover:underline" do %>
+        <i class="fa-solid fa-user-pen"></i>
+      <% end %>
       <!-- Partner Icon -->
-      <a href="/partner" class="text-blue-500 hover:underline">
+      <%= link_to partner_index_emotions_path, class: "text-blue-500 hover:underline" do %>
         <i class="fa-solid fa-people-arrows"></i>
-      </a>
+      <% end %>
     </div>
   </div>
 </footer>

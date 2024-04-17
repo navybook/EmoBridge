@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
-  resources :emotions, only: %i[new create]
+  resources :emotions, only: %i[new create index destroy] do
+    get 'partner_index', on: :collection
+  end
   resource :mypage, only: %i[show edit update]
   resources :categories
   resources :message_templates
