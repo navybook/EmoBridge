@@ -1,0 +1,27 @@
+<div class='w-5/6 mx-auto max-w-screen-xl'>
+  <h1 class="text-center text-3xl font-bold mt-8">パスワードリセット</h1>
+  <div class="container mx-auto mt-8">
+    <div class="flex justify-center">
+      <div class="w-full max-w-md">
+        <%= form_with model:@user, url:password_reset_path(@token), local: true do |f| %>
+            <%= render "shared/error_messages", object: f.object %>
+            <div class="mb-4">
+              <%= f.label :email, class: "block text-sm font-bold mb-2" %>
+              <%= f.email_field :email, class: "form-input mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :password, class: "block text-sm font-bold mb-2" %>
+              <%= f.password_field :password, class: "form-input mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :password_confirmation, class: "block text-sm font-bold mb-2" %>
+              <%= f.password_field :password_confirmation, class: "form-input mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" %>
+            </div>
+            <div class="mt-4 flex justify-center">
+              <%= f.submit "更新する", class: "px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
