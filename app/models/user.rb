@@ -23,6 +23,12 @@ class User < ApplicationRecord
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
 
+  # パートナーの感情記録を取得するメソッド
+  def partner_emotions
+    partner_id = EmotionPartner.find_by(user_id: id)&.partner_id
+    Emotion.where(user_id: partner_id)
+  end
+
   private
 
   # デフォルトカテゴリーをユーザーに割り当てるメソッド

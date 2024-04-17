@@ -31,6 +31,29 @@ class EmotionsController < ApplicationController
     end
   end
 
+  def index
+    @emotions = current_user.emotions.includes(:emotion_categories, :emotion_message).order(created_at: :desc).page(params[:page])
+  end
+
+  def partner_index
+    @partner = EmotionPartner.find_by(user_id: current_user.id)
+    if @partner
+      @partner_emotions = current_user.partner_emotions.includes(:emotion_categories, :emotion_message).order(created_at: :desc).page(params[:page])
+    else
+      @partner_emotions = []
+    end
+  end
+
+  def destroy
+    @emotion = Emotion.find(params[:id])
+    @emotion.destroy
+    render turbo_stream: turbo_stream.remove("emotion_#{params[:id]}") 
+    # respond_to do |format|
+    #   format.html { redirect_to emotions_url, notice: "Emotion was successfully destroyed." }
+    #   format.turbo_stream
+    # end
+  end
+
   private
 
   def emotion_params

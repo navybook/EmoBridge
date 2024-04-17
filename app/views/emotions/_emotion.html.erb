@@ -1,0 +1,42 @@
+<%= turbo_frame_tag "emotion_#{emotion.id}" do %>
+  <div class="bg-orange-100 shadow overflow-hidden sm:rounded-lg mb-4">
+    <div class="px-4 py-2 sm:px-6">
+      <div class="flex items-center justify-between">
+        <h3 class="justify-start text-base sm:text-lg font-medium leading-6 text-gray-900">
+          感情: <%= emotion.feeling %>
+          <i class="<%= icon_for_feeling(emotion.feeling) %>"></i>
+        </h3>
+        <% if current_user.id == emotion.user.id %>
+          <div class="justify-end mt-3">
+            <%= link_to '削除', emotion_path(emotion), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, class: "bg-red-500 hover:bg-red-700 text-white text-xs sm:text-base font-bold py-2 px-2 rounded" %>
+          </div>
+        <% end %>
+      </div>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        <%= emotion.created_at.strftime("%Y-%m-%d %H:%M") %>
+      </p>
+    </div>
+    <div class="border-t border-gray-200">
+      <div class="bg-amber-100 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <div class="text-sm font-medium text-gray-500">カテゴリー</div>
+        <div class="mt-1 text-sm text-gray-900 sm:col-span-2">
+          <% emotion.emotion_categories.each do |ec| %>
+            <span><%= ec.category.name %>: 評価 <%= ec.rating %></span><br>
+          <% end %>
+        </div>
+      </div>
+      <div class="bg-rose-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <div class="text-sm font-medium text-gray-500">メッセージ</div>
+        <div class="mt-1 text-sm sm:text-sm text-gray-900 sm:col-span-2">
+          <% if emotion.emotion_message&.user_template_id.present? && emotion.emotion_message.user_template.message_template.message=='その他' %>
+            <span><%= emotion.emotion_message.message %></span>
+          <% elsif emotion.emotion_message&.user_template_id.present? %>
+            <span><%= emotion.emotion_message.user_template.message_template.message %></span>
+          <% else %>
+            <i>メッセージはありません</i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
