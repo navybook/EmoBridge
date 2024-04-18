@@ -5,6 +5,25 @@
 @tailwind components;
 @tailwind utilities;
 
+.my-section h1 {
+  @apply text-base sm:text-2xl font-bold mt-2;
+}
+
+.my-section h2 {
+  @apply text-sm sm:text-xl font-bold mt-2;
+}
+
+.my-section p, .my-section ul {
+  @apply text-xs sm:text-base ml-3;
+}
+
+.my-section li {
+  @apply text-xs sm:text-base list-disc list-inside;
+}
+
+.prose li {
+  @apply text-xs sm:text-base mt-2;
+}
 /*
 
 @layer components {

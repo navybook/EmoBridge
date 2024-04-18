@@ -21,6 +21,7 @@
               <%= f.label :password_confirmation, "新しいパスワードの確認", class: "block text-gray-700 text-sm font-bold mb-2" %>
               <%= f.password_field :password_confirmation, id: :user_password_confirmation, class: "form-input mt-1 block w-full" %>
             </div>
+            <!-- Avatar画像
             <div class="mb-4">
               <%= f.label :avatar, "アイコン画像", class: "block text-gray-700 text-sm font-bold mb-2" %>
               <%= f.file_field :avatar, id: :user_avatar, class: "form-input mt-1 block w-full", data: { controller: "avatar-preview", action: "change->avatar-preview#preview" } %>
@@ -28,6 +29,7 @@
             <div class="mb-4">
               <%= image_tag(@user.avatar.present? ? @user.avatar.url : 'default.webp', id: "avatar-preview", alt: "Avatar Preview", class: "w-20 h-20 rounded-full mx-auto") %>
             </div>
+            -->
             <div class="flex justify-center">
               <%= f.submit "更新", class: "px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700" %>
             </div>
