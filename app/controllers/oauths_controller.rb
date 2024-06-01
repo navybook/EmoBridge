@@ -8,7 +8,7 @@ class OauthsController < ApplicationController
 
   def callback
     provider = auth_params[:provider]
-    if (@user = login_from(provider))
+    if (@user = login_from(provider, params[:remember_me]))
       redirect_to tops_home_path, success: "#{provider.titleize}でログインしました"
     else
       begin

@@ -5,7 +5,7 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    @user = login(params[:email], params[:password])
+    @user = login(params[:email], params[:password], params[:remember_me])
 
     if @user
       redirect_to tops_home_path, success: "ログインしました", status: :see_other
