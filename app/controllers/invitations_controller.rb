@@ -1,5 +1,7 @@
-class InvitationsController < ApplicationController
+# frozen_string_literal: true
 
+# This controller handles invitation-related actions
+class InvitationsController < ApplicationController
   def new
     @user = current_user
     @invitations = Invitation.where(receiver_id: current_user.id)
@@ -9,7 +11,7 @@ class InvitationsController < ApplicationController
     invited_user = User.find_by(unique_id: invitation_params[:unique_id])
     if invited_user
       @invitation = Invitation.new(sender_id: current_user.id, receiver_id: invited_user.id, status: 0)
-      
+
       if @invitation.save && !EmotionPartner.exists?(partner_id: invited_user.id)
         SendLineMessageJob.perform_later(@invitation)
         redirect_to tops_home_path, success: '招待が送信されました。'
@@ -47,7 +49,7 @@ class InvitationsController < ApplicationController
   def destroy
     invitation = Invitation.find(params[:id])
     invitation.destroy
-    redirect_to new_invitation_path, success: "招待を拒否しました", status: :see_other
+    redirect_to new_invitation_path, success: '招待を拒否しました', status: :see_other
   end
 
   private
