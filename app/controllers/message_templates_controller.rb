@@ -1,5 +1,7 @@
-class MessageTemplatesController < ApplicationController
+# frozen_string_literal: true
 
+# This controller handles message templates related actions
+class MessageTemplatesController < ApplicationController
   def new
     @message_template = MessageTemplate.new
   end
@@ -16,13 +18,14 @@ class MessageTemplatesController < ApplicationController
 
   def edit
     @template = MessageTemplate.find(params[:id])
-    render turbo_stream: turbo_stream.replace("template_#{params[:id]}", partial: "message_templates/edit", locals: { template: @template })
+    render turbo_stream: turbo_stream.replace("template_#{params[:id]}", partial: 'message_templates/edit',
+                                                                         locals: { template: @template })
   end
-  
+
   def update
     @template = MessageTemplate.find(params[:id])
     if @template.update(template_params)
-      redirect_to mypage_path, success: "テンプレートを更新しました"
+      redirect_to mypage_path, success: 'テンプレートを更新しました'
     else
       redirect_to mypage_path, error: '更新できませんでした'
     end
@@ -31,7 +34,7 @@ class MessageTemplatesController < ApplicationController
   def destroy
     @template = MessageTemplate.find(params[:id])
     @template.destroy
-    render turbo_stream: turbo_stream.remove("template_#{params[:id]}") 
+    render turbo_stream: turbo_stream.remove("template_#{params[:id]}")
   end
 
   private
@@ -40,4 +43,3 @@ class MessageTemplatesController < ApplicationController
     params.require(:message_template).permit(:message)
   end
 end
-

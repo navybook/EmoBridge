@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# This controller handles oauths-related actions
 class OauthsController < ApplicationController
-  skip_before_action :require_login, only: [:oauth, :callback]
+  skip_before_action :require_login, only: %i[oauth callback]
 
   def oauth
     provider = auth_params[:provider]

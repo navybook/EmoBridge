@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This controller handles emotion-related actions.
 class EmotionsController < ApplicationController
   def new
     @emotion = Emotion.new
@@ -15,9 +18,7 @@ class EmotionsController < ApplicationController
   def create
     @emotion = current_user.emotions.build(emotion_params)
     if @emotion.save
-      if params[:send_line_message] == "true"
-        SendLineMessageJob.perform_later(@emotion)
-      end
+      SendLineMessageJob.perform_later(@emotion) if params[:send_line_message] == 'true'
       redirect_to tops_home_path, success: 'Emotion記録が作成されました。', status: :see_other
     else
       @user_categories = current_user.user_categories.map do |user_category|
@@ -32,13 +33,15 @@ class EmotionsController < ApplicationController
   end
 
   def index
-    @emotions = current_user.emotions.includes(:emotion_categories, :emotion_message).order(created_at: :desc).page(params[:page])
+    @emotions = current_user.emotions.includes(:emotion_categories,
+                                               :emotion_message).order(created_at: :desc).page(params[:page])
   end
 
   def partner_index
     @partner = EmotionPartner.find_by(user_id: current_user.id)
     if @partner
-      @partner_emotions = current_user.partner_emotions.includes(:emotion_categories, :emotion_message).order(created_at: :desc).page(params[:page])
+      @partner_emotions = current_user.partner_emotions.includes(:emotion_categories,
+                                                                 :emotion_message).order(created_at: :desc).page(params[:page])
     else
       @partner_emotions = []
     end
@@ -47,21 +50,17 @@ class EmotionsController < ApplicationController
   def destroy
     @emotion = Emotion.find(params[:id])
     @emotion.destroy
-    render turbo_stream: turbo_stream.remove("emotion_#{params[:id]}") 
-    # respond_to do |format|
-    #   format.html { redirect_to emotions_url, notice: "Emotion was successfully destroyed." }
-    #   format.turbo_stream
-    # end
+    render turbo_stream: turbo_stream.remove("emotion_#{params[:id]}")
   end
 
   private
 
   def emotion_params
     params.require(:emotion).permit(
-      :feeling, 
-      :feeling_score, 
-      emotion_categories_attributes: [:id, :emotion_id, :user_category_id, :rating], 
-      emotion_message_attributes: [:id, :emotion_id, :user_id, :message, :user_template_id]
+      :feeling,
+      :feeling_score,
+      emotion_categories_attributes: %i[id emotion_id user_category_id rating],
+      emotion_message_attributes: %i[id emotion_id user_id message user_template_id]
     )
   end
 end

@@ -1,5 +1,7 @@
-class CategoriesController < ApplicationController
+# frozen_string_literal: true
 
+# This class handles categories related actions.
+class CategoriesController < ApplicationController
   def new
     @category = Category.new
   end
@@ -16,13 +18,14 @@ class CategoriesController < ApplicationController
 
   def edit
     @category = Category.find(params[:id])
-    render turbo_stream: turbo_stream.replace("category_#{params[:id]}", partial: "categories/edit", locals: { category: @category })
+    render turbo_stream: turbo_stream.replace("category_#{params[:id]}", partial: 'categories/edit',
+                                                                         locals: { category: @category })
   end
-  
+
   def update
     @category = Category.find(params[:id])
     if @category.update(category_params)
-      redirect_to mypage_path, success: "カテゴリーを更新しました"
+      redirect_to mypage_path, success: 'カテゴリーを更新しました'
     else
       redirect_to mypage_path, error: '更新できませんでした'
     end
@@ -31,7 +34,7 @@ class CategoriesController < ApplicationController
   def destroy
     @category = Category.find(params[:id])
     @category.destroy
-    render turbo_stream: turbo_stream.remove("category_#{params[:id]}") 
+    render turbo_stream: turbo_stream.remove("category_#{params[:id]}")
   end
 
   private

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# This controller handles mypages-related actions
 class MypagesController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: %i[show edit update]
 
   def show
     @user_categories = current_user.user_categories.map do |user_category|
@@ -10,12 +13,11 @@ class MypagesController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @user.update(user_params)
-      redirect_to mypage_path, success: "ユーザーを更新しました", status: :see_other
+      redirect_to mypage_path, success: 'ユーザーを更新しました', status: :see_other
     else
       flash.now[:error] = 'ユーザーを更新できませんでした'
       render :edit, status: :unprocessable_entity

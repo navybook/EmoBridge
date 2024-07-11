@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This controller handles user-related actions
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
 
