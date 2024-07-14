@@ -46,19 +46,9 @@ jobs:
           gem install bundler
           bundle install
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.16.0'
-
-      - name: Install Yarn
-        run: npm install -g yarn
-
-      - name: Install JavaScript dependencies
-        run: yarn install
-
-      - name: Build CSS
-        run: yarn run build:css
+      - name: Compile assets
+        run: |
+          bin/rails assets:precompile
 
       - name: Set up database
         run: |
