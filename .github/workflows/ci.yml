@@ -20,7 +20,7 @@ jobs:
         env:
           POSTGRES_DB: EmoBridge_test
           POSTGRES_USER: EmoBridge
-          POSTGRES_PASSWORD: <%= ENV['DB_PASSWORD'] %>
+          POSTGRES_PASSWORD: emopassword
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -29,7 +29,7 @@ jobs:
 
     env:
       RAILS_ENV: test
-      DATABASE_URL: postgres://EmoBridge:EmoPassword@localhost:5432/test_db
+      DATABASE_URL: postgres://EmoBridge:emopassword@localhost:5432/test_db
 
     steps:
       - name: Checkout code
