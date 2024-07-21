@@ -11,7 +11,7 @@ class LikesController < ApplicationController
 
   def destroy
     @emotion.likes.find_by(sender: current_user, receiver: @emotion.user)&.destroy
-    redirect_to partner_index_emotions_path
+    redirect_to partner_index_emotions_path, status: :see_other
   end
 
   private
