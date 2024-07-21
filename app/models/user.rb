@@ -16,6 +16,9 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :authentications
   has_one :emotion_partner, dependent: :destroy
   mount_uploader :avatar, AvatarUploader
+  has_many :sent_likes, foreign_key: :sender_id, class_name: 'Like', dependent: :destroy
+  has_many :received_likes, foreign_key: :receiver_id, class_name: 'Like', dependent: :destroy
+  has_many :liked_emotions, through: :sent_likes, source: :emotion
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: true
@@ -28,6 +31,22 @@ class User < ApplicationRecord
   def partner_emotions
     partner_id = EmotionPartner.find_by(user_id: id)&.partner_id
     Emotion.where(user_id: partner_id)
+  end
+
+  # 称号を取得するメソッド
+  def title
+    case received_likes.count
+    when 0..9
+      "パートナー入門者"
+    when 10..29
+      "仲良しのパートナー"
+    when 30..99
+      "信頼のパートナー"
+    when 100..499
+      "理想のパートナー"
+    else
+      "永遠のパートナー"
+    end
   end
 
   private

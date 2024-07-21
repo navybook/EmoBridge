@@ -37,6 +37,22 @@
           <% end %>
         </div>
       </div>
+      <% if current_user.id != emotion.user_id %>
+        <div class="bg-blue-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <div class="text-sm font-medium text-gray-500">共感する</div>
+          <div class="mt-1 text-sm text-gray-900 sm:col-span-2">
+            <% if current_user.liked_emotions.include?(emotion) %>
+              <%= link_to emotion_like_path(emotion, emotion.likes.find_by(sender: current_user)), data: { turbo_method: :delete }, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" do %>
+                <i class="fa-solid fa-heart"></i>
+              <% end %>
+            <% else %>
+              <%= link_to emotion_likes_path(emotion), data: { turbo_method: :post }, class: "bg-blue-300 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded" do %>
+                <i class="fa-regular fa-heart"></i>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>

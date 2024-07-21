@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
   resources :emotions, only: %i[new create index destroy] do
     get 'partner_index', on: :collection
+    resources :likes, only: %i[create destroy]
   end
   resource :mypage, only: %i[show edit update]
   resources :categories
