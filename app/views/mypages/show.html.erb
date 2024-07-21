@@ -10,6 +10,12 @@
               <%= link_to 'プロフィール編集', edit_mypage_path, class: "bg-blue-500 hover:bg-blue-700 text-white text-xs sm:text-base font-bold py-2 px-4 rounded" %>
             </div>
           </div>
+          <div class="flex items-center justify-between">
+          <% if current_user.title.present? %>
+            <h3 class="text-sm sm:text-base font-bold">称号: <%= current_user.title %></h3>
+            <p class="text-xs sm:text-sm mr-2">共感された数: <%= current_user.received_likes.count %></p>
+          <% end %>
+          </div>
 
           <div class="mt-8">
             <h3 class="text-sm sm:text-base font-bold mb-4">感情評価カテゴリー一覧</h3>
