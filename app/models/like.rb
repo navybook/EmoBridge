@@ -5,5 +5,5 @@ class Like < ApplicationRecord
 
   validates :sender_id, presence: true
   validates :receiver_id, presence: true
-  validates :emotion_id, uniqueness: { scope: [:sender_id, :receiver_id] }
+  validates :emotion_id, uniqueness: { scope: %i[sender_id receiver_id] }
 end
