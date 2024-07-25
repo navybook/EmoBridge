@@ -36,11 +36,19 @@ class SendLineMessageJob < ApplicationJob
       if partner && partner.line_user_id.present?
         category_name = emotion.emotion_categories.includes(:category).map { |ec| ec.category&.name }.compact.join(', ')
         message_template = emotion.emotion_message.message_template&.message
-        # メッセージを作成する
-        message = {
-          type: 'text',
-          text: "感情記録が追加されました。\n感情: #{emotion.feeling}\nカテゴリー: #{category_name}\nメッセージ: #{message_template}"
-        }
+        message = if message_template == 'その他'
+                    # メッセージを作成する
+                    {
+                      type: 'text',
+                      text: "感情記録が追加されました。\n感情: #{emotion.feeling}\nカテゴリー: #{category_name}\nメッセージ: #{emotion.emotion_message.message}"
+                    }
+                  else
+                    # メッセージを作成する
+                    {
+                      type: 'text',
+                      text: "感情記録が追加されました。\n感情: #{emotion.feeling}\nカテゴリー: #{category_name}\nメッセージ: #{message_template}"
+                    }
+                  end
 
         # パートナーのline_user_idを使用してメッセージを送信する
         response = line_client.push_message(partner.line_user_id, message)
