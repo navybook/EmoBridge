@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_19_142907) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_24_125235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -105,6 +105,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_19_142907) do
     t.index ["user_id"], name: "index_user_categories_on_user_id"
   end
 
+  create_table "user_states", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "state"
+    t.string "feeling"
+    t.string "category"
+    t.string "rating"
+    t.string "message_template"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_states_on_user_id"
+  end
+
   create_table "user_templates", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "message_template_id", null: false
@@ -145,6 +157,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_19_142907) do
   add_foreign_key "likes", "emotions"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
+  add_foreign_key "user_states", "users"
   add_foreign_key "user_templates", "message_templates"
   add_foreign_key "user_templates", "users"
 end
