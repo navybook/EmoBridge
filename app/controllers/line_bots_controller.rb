@@ -3,73 +3,73 @@
 # This controller handles line bots-related actions.
 # app/controllers/line_bots_controller.rb
 class LineBotsController < ApplicationController
-  protect_from_forgery with: :null_session  # CSRF保護を無効にする設定（外部からのPOSTリクエストを受け入れるため）
+  protect_from_forgery with: :null_session # CSRF保護を無効にする設定（外部からのPOSTリクエストを受け入れるため）
   skip_before_action :verify_authenticity_token, only: %i[callback]
   skip_before_action :require_login, only: %i[callback]
 
   def callback
-    body = request.body.read  # リクエストのボディを読み取る
-    signature = request.env['HTTP_X_LINE_SIGNATURE']  # LINEサーバーから送信された署名を取得
+    body = request.body.read # リクエストのボディを読み取る
+    signature = request.env['HTTP_X_LINE_SIGNATURE'] # LINEサーバーから送信された署名を取得
     unless client.validate_signature(body, signature)
-      head :bad_request  # 署名が無効な場合、400 Bad Requestを返す
+      head :bad_request # 署名が無効な場合、400 Bad Requestを返す
       return
     end
 
-    events = client.parse_events_from(body)  # リクエストのイベントを解析
+    events = client.parse_events_from(body) # リクエストのイベントを解析
     events.each do |event|
-      case event  # イベントの種類に応じて処理を分岐
+      case event # イベントの種類に応じて処理を分岐
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          handle_message(event)  # テキストメッセージを処理
+          handle_message(event) # テキストメッセージを処理
         end
       when Line::Bot::Event::Postback
-        handle_postback(event)  # ポストバックイベントを処理
+        handle_postback(event) # ポストバックイベントを処理
       end
     end
 
-    head :ok  # 200 OKを返す
+    head :ok # 200 OKを返す
   end
 
   private
 
   def client # LINE Botクライアントを取得
-    @client ||= Line::Bot::Client.new { |config|
+    @client ||= Line::Bot::Client.new do |config|
       config.channel_secret = ENV['LINEBOT_CHANNEL_SECRET']
       config.channel_token = ENV['LINEBOT_CHANNEL_TOKEN']
-    }
+    end
   end
 
   def handle_message(event)
-    user_message = event.message['text']  # ユーザーメッセージを取得
-    user_id = event['source']['userId']  # ユーザーIDを取得
-    user = User.find_by(line_user_id: user_id)  # ユーザーをデータベースから検索
+    user_message = event.message['text'] # ユーザーメッセージを取得
+    user_id = event['source']['userId'] # ユーザーIDを取得
+    user = User.find_by(line_user_id: user_id) # ユーザーをデータベースから検索
     user_state = UserState.find_by(user_id: user.id)
     if user_state&.state == 'waiting_for_custom_message'
       custom_message = user_message
       confirm_emotion_custom_message(event['replyToken'], user_id, user_state, custom_message)
     elsif user_message.match?(/記録|感情/)
-      ask_feeling(event['replyToken'])  # 感情を尋ねるメッセージを送信
+      ask_feeling(event['replyToken']) # 感情を尋ねるメッセージを送信
     else
-      reply_message(event['replyToken'], '感情を記録するには「記録」または「感情」と入力してください。')  # ガイドメッセージを送信
+      reply_message(event['replyToken'], '感情を記録するには「記録」または「感情」と入力してください。') # ガイドメッセージを送信
     end
   end
 
   def ask_feeling(reply_token)
     actions = [
-    { type: 'postback', label: '嬉しい', data: 'action=feeling&feeling=happy' },
-    { type: 'postback', label: '普通', data: 'action=feeling&feeling=normal' },
-    { type: 'postback', label: '辛い', data: 'action=feeling&feeling=tired' }
+      { type: 'postback', label: '嬉しい', data: 'action=feeling&feeling=happy' },
+      { type: 'postback', label: '普通', data: 'action=feeling&feeling=normal' },
+      { type: 'postback', label: '辛い', data: 'action=feeling&feeling=tired' }
     ]
     template = {
       type: 'buttons',
       text: '今の感情を選んでください。',
-      actions: actions
+      actions:
     }
     message = {
       type: 'template',
       altText: '感情を選んでください。',
-      template: template
+      template:
     }
     client.reply_message(reply_token, message)  # 感情選択のボタンテンプレートメッセージを送信
   end
@@ -78,7 +78,7 @@ class LineBotsController < ApplicationController
     user = User.find_by(line_user_id: user_id)  # ユーザーをデータベースから検索
     return unless user
 
-    user_categories = user.user_categories.includes(:category).limit(4)    # ユーザーのカテゴリを上位４つを取得
+    user_categories = user.user_categories.includes(:category).limit(4) # ユーザーのカテゴリを上位４つを取得
 
     actions = user_categories.map do |user_category|
       { type: 'postback', label: user_category.category.name, data: "action=category&category=#{user_category.id}&feeling=#{feeling}" }
@@ -87,12 +87,12 @@ class LineBotsController < ApplicationController
     template = {
       type: 'buttons',
       text: 'カテゴリを選んでください。',
-      actions: actions
+      actions:
     }
     message = {
       type: 'template',
       altText: 'カテゴリを選んでください。',
-      template: template
+      template:
     }
     Rails.logger.info("Sending category message: #{message.inspect}")
     client.reply_message(reply_token, message)  # カテゴリ選択のボタンテンプレートメッセージを送信
@@ -109,12 +109,12 @@ class LineBotsController < ApplicationController
     template = {
       type: 'buttons',
       text: '評価を選んでください。',
-      actions: actions
+      actions:
     }
     message = {
       type: 'template',
       altText: '評価を選んでください。',
-      template: template
+      template:
     }
     Rails.logger.info("Sending rating message: #{message.inspect}")
     client.reply_message(reply_token, message)  # 評価選択のボタンテンプレートメッセージを送信
@@ -129,12 +129,12 @@ class LineBotsController < ApplicationController
     template = {
       type: 'buttons',
       text: '評価を選んでください。',
-      actions: actions
+      actions:
     }
     message = {
       type: 'template',
       altText: '評価を選んでください。',
-      template: template
+      template:
     }
     Rails.logger.info("Sending additional rating message: #{message.inspect}")
     client.reply_message(reply_token, message)  # 評価選択のボタンテンプレートメッセージを送信
@@ -144,7 +144,7 @@ class LineBotsController < ApplicationController
     user = User.find_by(line_user_id: user_id)  # ユーザーをデータベースから検索
     return unless user
 
-    user_templates = user.user_templates.includes(:message_template).limit(4)  # ユーザーのメッセージテンプレートを上位4つ取得
+    user_templates = user.user_templates.includes(:message_template).limit(4) # ユーザーのメッセージテンプレートを上位4つ取得
 
     actions = user_templates.map do |user_template|
       { type: 'postback', label: user_template.message_template.message, data: "action=message&message=#{user_template.id}&feeling=#{feeling}&category=#{category}&rating=#{rating}" }
@@ -153,17 +153,17 @@ class LineBotsController < ApplicationController
     template = {
       type: 'buttons',
       text: 'メッセージを選んでください。',
-      actions: actions
+      actions:
     }
     message = {
       type: 'template',
       altText: 'メッセージを選んでください。',
-      template: template
+      template:
     }
-    client.reply_message(reply_token, message)  # メッセージ選択のボタンテンプレートメッセージを送信
+    client.reply_message(reply_token, message) # メッセージ選択のボタンテンプレートメッセージを送信
   end
 
-  def prompt_custom_message(reply_token, feeling, category, rating)
+  def prompt_custom_message(reply_token, _feeling, _category, _rating)
     message = {
       type: 'text',
       text: '自由入力でメッセージを入力してください。'
@@ -172,7 +172,7 @@ class LineBotsController < ApplicationController
   end
 
   def confirm_emotion(reply_token, feeling, category, rating, message_template_id)
-    user_template = UserTemplate.find_by(id: message_template_id)  # メッセージテンプレートをデータベースから検索
+    user_template = UserTemplate.find_by(id: message_template_id) # メッセージテンプレートをデータベースから検索
     return unless user_template
 
     text = <<~TEXT
@@ -188,18 +188,18 @@ class LineBotsController < ApplicationController
     ]
     template = {
       type: 'confirm',
-      text: text,
-      actions: actions
+      text:,
+      actions:
     }
     message = {
       type: 'template',
       altText: '感情を記録しますか？',
-      template: template
+      template:
     }
     client.reply_message(reply_token, message)  # 感情記録確認の確認テンプレートメッセージを送信
   end
 
-  def confirm_emotion_custom_message(reply_token, user_id, user_state, custom_message)
+  def confirm_emotion_custom_message(reply_token, _user_id, user_state, custom_message)
     feeling = user_state[:feeling]
     category = user_state[:category]
     rating = user_state[:rating]
@@ -218,13 +218,13 @@ class LineBotsController < ApplicationController
     ]
     template = {
       type: 'confirm',
-      text: text,
-      actions: actions
+      text:,
+      actions:
     }
     message = {
       type: 'template',
       altText: '感情を記録しますか？',
-      template: template
+      template:
     }
     client.reply_message(reply_token, message)  # 感情記録確認の確認テンプレートメッセージを送信
   end
@@ -234,7 +234,7 @@ class LineBotsController < ApplicationController
     data = raw_data.split('&').map { |s| s.split('=') }.to_h
     Rails.logger.info("Received raw postback data: #{raw_data}")
     Rails.logger.info("Parsed postback data: #{data}")
-  
+
     action = data['action']
     if action.nil?
       Rails.logger.error("No action found in postback data.")
@@ -246,7 +246,7 @@ class LineBotsController < ApplicationController
     rating = data['rating']
     message_template = data['message']
 
-    case action  # アクションに応じて処理を分岐
+    case action # アクションに応じて処理を分岐
     when 'feeling'
       Rails.logger.info("Handling feeling action")
       ask_category(event['replyToken'], event['source']['userId'], data['feeling'])
@@ -268,10 +268,10 @@ class LineBotsController < ApplicationController
         Rails.logger.info("Handling custom_message action")
         UserState.find_or_create_by(user_id: user.id).update(
           state: 'waiting_for_custom_message',
-          feeling: feeling,
-          category: category,
-          rating: rating,
-          message_template: message_template
+          feeling:,
+          category:,
+          rating:,
+          message_template:
         )
         prompt_custom_message(event['replyToken'], feeling, category, rating)
       else
@@ -310,37 +310,39 @@ class LineBotsController < ApplicationController
   end
 
   def save_emotion(reply_token, user_id, feeling, category, rating, message_template)
-    user = User.find_by(line_user_id: user_id)  # ユーザーをデータベースから検索
+    user = User.find_by(line_user_id: user_id) # ユーザーをデータベースから検索
     return unless user
+
     if user.nil?
       Rails.logger.error "User not found for line_user_id: #{user_id}"
       return
     end
 
     emotion = user.emotions.build(
-      feeling: feeling,
-      emotion_categories_attributes: [{ user_category_id: category, rating: rating }],
+      feeling:,
+      emotion_categories_attributes: [{ user_category_id: category, rating: }],
       emotion_message_attributes: { user_id: user.id, user_template_id: message_template }
     )
-    Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(", ")}")
+    Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(', ')}")
 
     if emotion.save
       partner = EmotionPartner.find_by(user_id: user.id)
       partner_user = User.find_by(id: partner.partner_id)
       if partner_user&.line_user_id
-        reply_message(reply_token, '感情が記録されました。通知しますか？', emotion.id)  # 感情記録完了メッセージを送信
+        reply_message(reply_token, '感情が記録されました。通知しますか？', emotion.id) # 感情記録完了メッセージを送信
       else
-        reply_message(reply_token, '感情が記録されました。') 
+        reply_message(reply_token, '感情が記録されました。')
       end
     else
-      Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(", ")}")
-      reply_message(reply_token, '感情の記録に失敗しました。')  # 感情記録失敗メッセージを送信
+      Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(', ')}")
+      reply_message(reply_token, '感情の記録に失敗しました。') # 感情記録失敗メッセージを送信
     end
   end
 
   def handle_custom_message_input(reply_token, user_id, user_state, custom_message)
-    user = User.find_by(line_user_id: user_id)  # ユーザーをデータベースから検索
+    user = User.find_by(line_user_id: user_id) # ユーザーをデータベースから検索
     return unless user
+
     if user.nil?
       Rails.logger.error "User not found for line_user_id: #{user_id}"
       return
@@ -349,13 +351,13 @@ class LineBotsController < ApplicationController
     category = user_state[:category]
     rating = user_state[:rating]
     message_template = user_state[:message_template]
-  
+
     emotion = user.emotions.build(
-      feeling: feeling,
-      emotion_categories_attributes: [{ user_category_id: category, rating: rating }],
+      feeling:,
+      emotion_categories_attributes: [{ user_category_id: category, rating: }],
       emotion_message_attributes: { user_id: user.id, user_template_id: message_template, message: custom_message }
     )
-    Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(", ")}")
+    Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(', ')}")
 
     user_state = UserState.find_by(user_id: user.id)
     user_state.destroy if user_state # 状態をクリア
@@ -364,13 +366,13 @@ class LineBotsController < ApplicationController
       partner = EmotionPartner.find_by(user_id: user.id)
       partner_user = User.find_by(id: partner.partner_id)
       if partner_user&.line_user_id
-        reply_message(reply_token, '感情が記録されました。通知しますか？', emotion.id)  # 感情記録完了メッセージを送信
+        reply_message(reply_token, '感情が記録されました。通知しますか？', emotion.id) # 感情記録完了メッセージを送信
       else
-        reply_message(reply_token, '感情が記録されました。') 
+        reply_message(reply_token, '感情が記録されました。')
       end
     else
-      Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(", ")}")
-      reply_message(reply_token, '感情の記録に失敗しました。')  # 感情記録失敗メッセージを送信
+      Rails.logger.error("Validation errors: #{emotion.errors.full_messages.join(', ')}")
+      reply_message(reply_token, '感情の記録に失敗しました。') # 感情記録失敗メッセージを送信
     end
   end
 
@@ -395,15 +397,15 @@ class LineBotsController < ApplicationController
       template = {
         type: 'confirm',
         text: 'パートナーに通知しますか？',
-        actions: actions
+        actions:
       }
       messages = {
         type: 'template',
         altText: 'パートナーに通知しますか？',
-        template: template
+        template:
       }
     end
-    client.reply_message(reply_token, messages)  # メッセージを送信
-    Rails.logger.info("Sent reply message: #{response.body}")  
+    client.reply_message(reply_token, messages) # メッセージを送信
+    Rails.logger.info("Sent reply message: #{response.body}")
   end
 end
