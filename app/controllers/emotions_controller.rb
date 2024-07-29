@@ -18,8 +18,11 @@ class EmotionsController < ApplicationController
   def create
     @emotion = current_user.emotions.build(emotion_params)
     if @emotion.save
-      SendLineMessageJob.perform_later(@emotion) if params[:send_line_message] == 'true'
-      redirect_to tops_home_path, success: 'Emotion記録が作成されました。', status: :see_other
+      if params[:send_line_message] == 'true'
+        SendLineMessageJob.perform_later(@emotion)
+      else
+        redirect_to tops_home_path, success: 'Emotion記録が作成されました。', status: :see_other
+      end
     else
       @user_categories = current_user.user_categories.map do |user_category|
         [user_category.category.name, user_category.category_id]

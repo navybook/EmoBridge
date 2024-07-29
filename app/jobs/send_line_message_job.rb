@@ -3,6 +3,7 @@ require 'line/bot'
 class SendLineMessageJob < ApplicationJob
   queue_as :default
 
+  # performメソッドは、ジョブが実行されたときに呼び出されるメソッド
   def perform(argument)
     # 引数が Emotion オブジェクトの場合は、感情の通知を送信する
     if argument.is_a?(Emotion)
@@ -56,14 +57,18 @@ class SendLineMessageJob < ApplicationJob
         # レスポンスコードを確認して、成功かどうかログに記録する
         if response&.code == "200"
           Rails.logger.info("Message sent to LINE successfully.")
+          ActionCable.server.broadcast('line_notifications_channel', { status: 'success' })
         else
           Rails.logger.error("Failed to send message to LINE: #{response&.body}")
+          ActionCable.server.broadcast('line_notifications_channel', { status: 'error' })
         end
       else
         Rails.logger.error("Partner's LINE ID is not available or Partner not found.")
+        ActionCable.server.broadcast('line_notifications_channel', { status: 'error' })
       end
     else
       Rails.logger.error("No emotion partner associated with this user.")
+      ActionCable.server.broadcast('line_notifications_channel', { status: 'error' })
     end
   end
 
