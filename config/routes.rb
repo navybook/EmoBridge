@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'privacy_policy', to: 'static_pages#privacy_policy'
   get 'terms_of_service', to: 'static_pages#terms_of_service'
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+  # ActionCableを有効化
+  mount ActionCable.server => '/cable'
   resources :password_resets, only: %i[new create edit update]
   get 'tops/index'
   get 'tops/home'
@@ -26,6 +28,7 @@ Rails.application.routes.draw do
     patch :approve, on: :member
   end
   resources :emotion_partners, only: %i[destroy]
+  # LINEから投稿用
   post '/', to: 'line_bots#callback'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
