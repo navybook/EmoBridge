@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :received_likes, foreign_key: :receiver_id, class_name: 'Like', dependent: :destroy
   has_many :liked_emotions, through: :sent_likes, source: :emotion
   has_one :user_state, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :sent_notifications, class_name: 'Notification', foreign_key: 'partner_id', dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: true

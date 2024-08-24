@@ -7,6 +7,7 @@ class Emotion < ApplicationRecord
   has_many :user_templates, through: :emotion_message
   has_many :likes, dependent: :destroy
   has_many :liking_senders, through: :likes, source: :sender
+  has_many :notifications, dependent: :destroy
 
   # accepts_nested_attributes_forの追加
   accepts_nested_attributes_for :emotion_message, :emotion_categories
