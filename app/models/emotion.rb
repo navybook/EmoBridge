@@ -1,6 +1,5 @@
 class Emotion < ApplicationRecord
   belongs_to :user
-  validates :feeling, presence: true
   has_many :emotion_categories, dependent: :destroy
   has_many :user_categories, through: :emotion_categories
   has_one :emotion_message, dependent: :destroy
@@ -8,6 +7,11 @@ class Emotion < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liking_senders, through: :likes, source: :sender
   has_many :notifications, dependent: :destroy
+
+  validates :feeling, presence: true
+
+  before_save :set_feeling_score
+  after_create :create_notification
 
   # accepts_nested_attributes_forの追加
   accepts_nested_attributes_for :emotion_message, :emotion_categories
@@ -21,7 +25,7 @@ class Emotion < ApplicationRecord
     exhausted: 'fa-regular fa-face-dizzy'
   }
 
-  before_save :set_feeling_score
+  private
 
   def set_feeling_score
     feeling_scores = {
@@ -33,5 +37,17 @@ class Emotion < ApplicationRecord
     }
 
     self.feeling_score = feeling_scores[feeling.to_sym]
+  end
+
+  def create_notification
+    partner = EmotionPartner.find_by(user_id: self.user_id)
+    return unless partner  # パートナーがいない場合は処理を中断
+
+    Notification.create(
+      user_id: self.user_id,
+      partner_id: partner.partner_id,
+      emotion_id: self.id,
+      status: 0
+    )
   end
 end
