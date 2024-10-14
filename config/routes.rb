@@ -28,6 +28,11 @@ Rails.application.routes.draw do
     patch :approve, on: :member
   end
   resources :emotion_partners, only: %i[destroy]
+  resources :notifications, only: %i[index destroy] do
+    collection do
+      get :unread_count  # 未読通知数を返すエンドポイント
+    end
+  end
   # LINEから投稿用
   post '/', to: 'line_bots#callback'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
