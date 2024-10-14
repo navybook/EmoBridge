@@ -1,0 +1,34 @@
+<ul tabindex="0" class="dropdown-content container mx-auto bg-white mt-3 z-[1] p-2 w-56 shadow rounded-box">
+  <% if notifications.blank? %>
+    <% if @error.present? %>
+      <li class="text-xs px-2 text-gray-500"><%= @error %></li>
+    <% else %>
+      <li class="text-xs px-2 text-gray-500">通知はありません</li>
+    <% end %>
+  <% else %>
+    <% notifications.each do |notification| %>
+      <div class="flex items-center justify-between mb-2">
+        <div class="justify-start text-xs px-2 py-2 text-blue-600">
+          <p class="text-gray-900"><%= "#{notification.created_at.strftime("%m.%d")}" %></p>
+          <%= link_to "#{notification.user.name}が記録しました", partner_index_emotions_path %>
+        </div>
+        <div class="justify-end text-xs">
+          <%= link_to notification_path(notification), data: { turbo_method: :delete },class: "btn btn-xs btn-circle bg-white" do %>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</ul>
