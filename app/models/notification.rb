@@ -5,4 +5,5 @@ class Notification < ApplicationRecord
 
   validates :user_id, :partner_id, :emotion_id, :status, presence: true
   enum status: { unread: 0, read: 1 } # ステータスの定義
+  scope :unread, -> { where(status: 0) }
 end
