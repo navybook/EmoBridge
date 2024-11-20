@@ -14,7 +14,7 @@ RSpec.describe "PartnerInvitations", type: :system do
     click_button '招待を送信する'
     expect(page).to have_content('招待が送信されました。')
     expect(current_path).to eq tops_home_path
-    find('.dropdown').click 
+    find('div.dropdown', match: :first).click
     click_link 'ログアウト'
     expect(page).to have_content('ログアウトしました')
     login_user(partner)
