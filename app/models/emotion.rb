@@ -40,13 +40,13 @@ class Emotion < ApplicationRecord
   end
 
   def create_notification
-    partner = EmotionPartner.find_by(user_id: self.user_id)
-    return unless partner  # パートナーがいない場合は処理を中断
+    partner = EmotionPartner.find_by(user_id:)
+    return unless partner # パートナーがいない場合は処理を中断
 
     Notification.create(
-      user_id: self.user_id,
+      user_id:,
       partner_id: partner.partner_id,
-      emotion_id: self.id,
+      emotion_id: id,
       status: 0
     )
   end

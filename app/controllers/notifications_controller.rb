@@ -25,8 +25,8 @@ class NotificationsController < ApplicationController
     if partner.nil?
       render json: { unread_count: 0 }
     else
-      unread_count = partner.notifications.unread.count  # 未読通知の数
-      render json: { unread_count: unread_count }  # JSONで返す
+      unread_count = partner.notifications.unread.count # 未読通知の数
+      render json: { unread_count: } # JSONで返す
     end
   end
 
