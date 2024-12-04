@@ -19,7 +19,7 @@ RSpec.describe "Users", type: :system do
     fill_in 'email', with: user.email
     fill_in 'password', with: 'password'
     click_button 'ログイン'
-    find('.dropdown').click 
+    find('div.dropdown', match: :first).click
     click_link 'ログアウト'
     expect(page).to have_content('ログアウトしました')
     expect(current_path).to eq root_path
