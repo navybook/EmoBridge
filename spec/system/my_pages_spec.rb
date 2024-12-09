@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "MyPages", type: :system do
+RSpec.describe 'MyPages', type: :system do
   let(:user) { FactoryBot.create(:user) }
 
   before do

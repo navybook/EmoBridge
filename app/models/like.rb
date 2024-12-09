@@ -1,6 +1,6 @@
 class Like < ApplicationRecord
-  belongs_to :sender, class_name: "User"
-  belongs_to :receiver, class_name: "User"
+  belongs_to :sender, class_name: 'User'
+  belongs_to :receiver, class_name: 'User'
   belongs_to :emotion
 
   validates :sender_id, presence: true

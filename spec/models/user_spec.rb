@@ -6,29 +6,29 @@ RSpec.describe User, type: :model do
     expect(user).to be_valid
   end
 
-  it "is invalid without a name" do
+  it 'is invalid without a name' do
     user = FactoryBot.build(:user, name: nil)
     expect(user).to_not be_valid
   end
 
-  it "is not valid without an email" do
+  it 'is not valid without an email' do
     user = FactoryBot.build(:user, email: nil)
     expect(user).to_not be_valid
   end
 
-  it "is not valid without a password" do
+  it 'is not valid without a password' do
     user = FactoryBot.build(:user, password: nil)
     expect(user).to_not be_valid
   end
 
-  it "is invalid with a duplicate email address" do
-    existing_user = FactoryBot.create(:user, email: "user_1@example.com")
-    user = FactoryBot.build(:user, email: "user_1@example.com")
+  it 'is invalid with a duplicate email address' do
+    existing_user = FactoryBot.create(:user, email: 'user_1@example.com')
+    user = FactoryBot.build(:user, email: 'user_1@example.com')
     expect(user).to_not be_valid
   end
 
-  it "is invalid with a short password" do
-    user = FactoryBot.build(:user, password: 'short') 
+  it 'is invalid with a short password' do
+    user = FactoryBot.build(:user, password: 'short')
     expect(user).to_not be_valid
   end
 end

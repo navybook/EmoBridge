@@ -40,15 +40,15 @@ class User < ApplicationRecord
   def title
     case received_likes.count
     when 0..9
-      "パートナー入門者"
+      'パートナー入門者'
     when 10..29
-      "仲良しのパートナー"
+      '仲良しのパートナー'
     when 30..99
-      "信頼のパートナー"
+      '信頼のパートナー'
     when 100..499
-      "理想のパートナー"
+      '理想のパートナー'
     else
-      "永遠のパートナー"
+      '永遠のパートナー'
     end
   end
 
@@ -56,25 +56,25 @@ class User < ApplicationRecord
 
   # デフォルトカテゴリーをユーザーに割り当てるメソッド
   def assign_default_categories
-    default_categories = ['仕事', '家事', '趣味']
+    default_categories = %w[仕事 家事 趣味]
     default_categories.each do |category_name|
       category = Category.create(name: category_name)
       # UserCategoryを介してUserとCategoryを関連付ける
-      user_categories.create(category: category)
+      user_categories.create(category:)
     end
   end
 
   # デフォルトメッセージテンプレートをユーザーに割り当てるメソッド
   def assign_default_message_templates
-    default_messages = [
-      '良いことがあったから話を聞いて下さい',
-      '酷く疲れたので１人時間下さい',
-      'その他'
+    default_messages = %w[
+      良いことがあったから話を聞いて下さい
+      酷く疲れたので１人時間下さい
+      その他
     ]
     default_messages.each do |message|
-      message_template = MessageTemplate.create(message: message)
+      message_template = MessageTemplate.create(message:)
       # UserTemplateを作成してUserとMessageTemplateを関連付ける
-      user_templates.create(message_template: message_template)
+      user_templates.create(message_template:)
     end
   end
 
@@ -82,7 +82,7 @@ class User < ApplicationRecord
     # 一意の8文字のIDを生成
     loop do
       self.unique_id = SecureRandom.hex(4).upcase
-      break unless User.exists?(unique_id: unique_id)
+      break unless User.exists?(unique_id:)
     end
   end
 end
