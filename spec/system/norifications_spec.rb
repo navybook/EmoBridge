@@ -26,6 +26,7 @@ RSpec.describe 'Notifications', type: :system do
     select '良いことがあったから話を聞いて下さい', from: 'emotion[emotion_message_attributes][user_template_id]'
     click_button '記録'
     page.dismiss_confirm 'パートナーへLINEメッセージを送信しますか？'
+    expect(page).to have_content('Emotion記録が作成されました。')
     find('div.dropdown', match: :first).click
     click_link 'ログアウト'
     expect(page).to have_content('ログアウトしました')
