@@ -31,30 +31,22 @@ RSpec.describe 'Notifications', type: :system do
     click_link 'ログアウト'
     expect(page).to have_content('ログアウトしました')
     login_user(user)
+    visit root_path
   end
 
   it 'displays the notification badge with unread notifications' do
-    # 未読の通知がある場合バッジが表示されることを確認
     expect(page).to have_css('.badge-primary', visible: true)
   end
 
   it 'shows the notification when clicking the bell icon' do
-    # 通知のベルをクリック
     find('#notification-button').click
-
-    # 通知の内容が表示されることを確認
     within('#notifications-container') do
       expect(page).to have_content("#{partner.name}が記録しました")
     end
   end
 
   it 'marks notifications as read when opening the list' do
-    visit root_path
-
-    # 通知のベルをクリックして通知一覧を表示
     find('#notification-button').click
-
-    # 全ての通知が既読になっているか確認
     Notification.all.each do |notification|
       expect(notification.reload.status).to eq('read')
     end
