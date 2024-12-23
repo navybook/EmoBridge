@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "EmotionHistories", type: :system do
+RSpec.describe 'EmotionHistories', type: :system do
   let(:user) { FactoryBot.create(:user) }
   let(:partner) { FactoryBot.create(:user) }
 
@@ -18,7 +18,7 @@ RSpec.describe "EmotionHistories", type: :system do
     visit new_invitation_path
     click_link '承認'
     expect(page).to have_content('招待を承認しました。')
-    FactoryBot.create(:emotion, user: user, feeling: 'happy', feeling_score: 3)
+    FactoryBot.create(:emotion, user:, feeling: 'happy', feeling_score: 3)
     FactoryBot.create(:emotion, user: partner, feeling: 'tired', feeling_score: 0)
   end
 

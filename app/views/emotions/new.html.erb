@@ -7,10 +7,10 @@
         <%= render 'shared/error_messages', object: f.object %>
         <!-- 自身の感情記録を入力 -->
         <div class="flex justify-around mb-4 text-2xl" data-controller="emotion">
-          <i class="fa-regular fa-face-dizzy" data-value="exhausted" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
+          <i class="fa-regular fa-face-angry" data-value="angry" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
+          <i class="fa-regular fa-face-sad-tear" data-value="sad" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
           <i class="fa-regular fa-face-tired" data-value="tired" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
           <i class="fa-regular fa-face-grin-wide" data-value="normal" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
-          <i class="fa-regular fa-face-smile-beam" data-value="smile" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
           <i class="fa-regular fa-face-laugh-beam" data-value="happy" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
           <%= f.hidden_field :feeling, id: "emotion_feeling", data: { emotion_target: 'feeling' } %>
         </div>

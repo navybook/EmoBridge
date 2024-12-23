@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "PartnerInvitations", type: :system do
+RSpec.describe 'PartnerInvitations', type: :system do
   let(:user) { FactoryBot.create(:user) }
   let(:partner) { FactoryBot.create(:user) }
 

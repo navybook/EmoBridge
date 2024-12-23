@@ -1,9 +1,7 @@
-# このクラスはActionCableのチャンネルを定義しているダ
-# "LineNotificationsChannel"という名前のチャンネルを作成するためのクラス
 class LineNotificationsChannel < ApplicationCable::Channel
   # このメソッドはクライアントがチャンネルに接続したときに呼ばれる
   def subscribed
-    stream_from "line_notifications_channel"
+    stream_from 'line_notifications_channel'
   end
 
   # このメソッドはクライアントがチャンネルから切断されたときに呼ばれる

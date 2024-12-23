@@ -18,7 +18,7 @@ FactoryBot.define do
 
       # Emotionが作成された後に、指定された数のEmotionCategoryを作成し関連付ける
       after(:create) do |emotion, evaluator|
-        create_list(:emotion_category, evaluator.categories_count, emotion: emotion)
+        create_list(:emotion_category, evaluator.categories_count, emotion:)
       end
     end
 
@@ -26,7 +26,7 @@ FactoryBot.define do
     factory :emotion_with_message do
       # Emotionが作成された後に、EmotionMessageを作成し関連付ける
       after(:create) do |emotion, _evaluator|
-        create(:emotion_message, emotion: emotion)
+        create(:emotion_message, emotion:)
       end
     end
   end

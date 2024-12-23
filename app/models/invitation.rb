@@ -6,11 +6,11 @@ class Invitation < ApplicationRecord
 
   validates :status, presence: true
   validate :sender_receiver_different
-  validates :sender_id, uniqueness: { scope: [:receiver_id, :status] }
+  validates :sender_id, uniqueness: { scope: %i[receiver_id status] }
 
   private
 
   def sender_receiver_different
-    errors.add(:receiver_id, "とsender_idは異なる必要があります") if sender_id == receiver_id
+    errors.add(:receiver_id, 'とsender_idは異なる必要があります') if sender_id == receiver_id
   end
 end

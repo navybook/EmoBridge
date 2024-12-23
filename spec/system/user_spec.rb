@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :system do
+RSpec.describe 'Users', type: :system do
   let(:user) { FactoryBot.create(:user) }
 
   it 'allows a user to register' do

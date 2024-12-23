@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   resources :emotion_partners, only: %i[destroy]
   resources :notifications, only: %i[index destroy] do
     collection do
-      get :unread_count  # 未読通知数を返すエンドポイント
+      get :unread_count # 未読通知数を返すエンドポイント
     end
   end
   # LINEから投稿用

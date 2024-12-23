@@ -81,7 +81,8 @@ class LineBotsController < ApplicationController
     user_categories = user.user_categories.includes(:category).limit(4) # ユーザーのカテゴリを上位４つを取得
 
     actions = user_categories.map do |user_category|
-      { type: 'postback', label: user_category.category.name, data: "action=category&category=#{user_category.id}&feeling=#{feeling}" }
+      { type: 'postback', label: user_category.category.name,
+        data: "action=category&category=#{user_category.id}&feeling=#{feeling}" }
     end
 
     template = {
@@ -104,7 +105,8 @@ class LineBotsController < ApplicationController
       { type: 'postback', label: '最高', data: "action=rating&rating=5&feeling=#{feeling}&category=#{category}" },
       { type: 'postback', label: '普通', data: "action=rating&rating=3&feeling=#{feeling}&category=#{category}" },
       { type: 'postback', label: '最悪', data: "action=rating&rating=1&feeling=#{feeling}&category=#{category}" },
-      { type: 'postback', label: 'それ以外(良いor悪い)', data: "action=rating&rating=other&feeling=#{feeling}&category=#{category}" }
+      { type: 'postback', label: 'それ以外(良いor悪い)',
+        data: "action=rating&rating=other&feeling=#{feeling}&category=#{category}" }
     ]
     template = {
       type: 'buttons',
@@ -147,7 +149,8 @@ class LineBotsController < ApplicationController
     user_templates = user.user_templates.includes(:message_template).limit(4) # ユーザーのメッセージテンプレートを上位4つ取得
 
     actions = user_templates.map do |user_template|
-      { type: 'postback', label: user_template.message_template.message, data: "action=message&message=#{user_template.id}&feeling=#{feeling}&category=#{category}&rating=#{rating}" }
+      { type: 'postback', label: user_template.message_template.message,
+        data: "action=message&message=#{user_template.id}&feeling=#{feeling}&category=#{category}&rating=#{rating}" }
     end
 
     template = {
@@ -183,7 +186,8 @@ class LineBotsController < ApplicationController
     TEXT
 
     actions = [
-      { type: 'postback', label: '記録する', data: "action=save&feeling=#{feeling}&category=#{category}&rating=#{rating}&message=#{message_template_id}" },
+      { type: 'postback', label: '記録する',
+        data: "action=save&feeling=#{feeling}&category=#{category}&rating=#{rating}&message=#{message_template_id}" },
       { type: 'postback', label: 'キャンセル', data: 'action=cancel' }
     ]
     template = {
@@ -213,7 +217,8 @@ class LineBotsController < ApplicationController
     TEXT
 
     actions = [
-      { type: 'postback', label: '記録する', data: "action=save&feeling=#{feeling}&category=#{category}&rating=#{rating}&custom_message=#{custom_message}" },
+      { type: 'postback', label: '記録する',
+        data: "action=save&feeling=#{feeling}&category=#{category}&rating=#{rating}&custom_message=#{custom_message}" },
       { type: 'postback', label: 'キャンセル', data: 'action=cancel' }
     ]
     template = {
@@ -237,7 +242,7 @@ class LineBotsController < ApplicationController
 
     action = data['action']
     if action.nil?
-      Rails.logger.error("No action found in postback data.")
+      Rails.logger.error('No action found in postback data.')
       return
     end
     action = data['action']
@@ -248,13 +253,13 @@ class LineBotsController < ApplicationController
 
     case action # アクションに応じて処理を分岐
     when 'feeling'
-      Rails.logger.info("Handling feeling action")
+      Rails.logger.info('Handling feeling action')
       ask_category(event['replyToken'], event['source']['userId'], data['feeling'])
     when 'category'
-      Rails.logger.info("Handling category action")
+      Rails.logger.info('Handling category action')
       ask_rating(event['replyToken'], data['feeling'], data['category'])
     when 'rating'
-      Rails.logger.info("Handling rating action")
+      Rails.logger.info('Handling rating action')
       if rating == 'other'
         ask_additional_rating(event['replyToken'], feeling, category)
       else
@@ -265,7 +270,7 @@ class LineBotsController < ApplicationController
       user_id = event['source']['userId']
       user = User.find_by(line_user_id: user_id)
       if user_template&.message_template&.message == 'その他'
-        Rails.logger.info("Handling custom_message action")
+        Rails.logger.info('Handling custom_message action')
         UserState.find_or_create_by(user_id: user.id).update(
           state: 'waiting_for_custom_message',
           feeling:,
@@ -275,11 +280,11 @@ class LineBotsController < ApplicationController
         )
         prompt_custom_message(event['replyToken'], feeling, category, rating)
       else
-        Rails.logger.info("Handling message action")
+        Rails.logger.info('Handling message action')
         confirm_emotion(event['replyToken'], feeling, category, rating, message_template)
       end
     when 'save'
-      Rails.logger.info("Handling save action")
+      Rails.logger.info('Handling save action')
       user_id = event['source']['userId']
       user = User.find_by(line_user_id: user_id)
       user_state = UserState.find_by(user_id: user.id)
@@ -288,10 +293,11 @@ class LineBotsController < ApplicationController
         custom_message = data['custom_message']
         handle_custom_message_input(event['replyToken'], user_id, user_state, custom_message)
       else
-        save_emotion(event['replyToken'], event['source']['userId'], data['feeling'], data['category'], data['rating'], data['message'])
+        save_emotion(event['replyToken'], event['source']['userId'], data['feeling'], data['category'], data['rating'],
+                     data['message'])
       end
     when 'cancel'
-      Rails.logger.info("Handling cancel action")
+      Rails.logger.info('Handling cancel action')
       user_id = event['source']['userId']
       user = User.find_by(line_user_id: user_id)
       user_state = UserState.find_by(user_id: user.id)
