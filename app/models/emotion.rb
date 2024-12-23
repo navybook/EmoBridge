@@ -19,10 +19,10 @@ class Emotion < ApplicationRecord
   # feeling属性のenum設定
   enum feeling: {
     happy: 'fa-regular fa-face-laugh-beam',
-    smile: 'fa-regular fa-face-smile-beam',
     normal: 'fa-regular fa-face-grin-wide',
     tired: 'fa-regular fa-face-tired',
-    exhausted: 'fa-regular fa-face-dizzy'
+    sad: 'fa-regular fa-face-sad-tear',
+    angry: 'fa-regular fa-face-angry'
   }
 
   private
@@ -30,10 +30,10 @@ class Emotion < ApplicationRecord
   def set_feeling_score
     feeling_scores = {
       happy: 3,
-      smile: 1,
       normal: 0,
       tired: -1,
-      exhausted: -3
+      sad: -2,
+      angry: -3
     }
 
     self.feeling_score = feeling_scores[feeling.to_sym]
