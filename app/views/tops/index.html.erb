@@ -1,19 +1,15 @@
-<div class="bg-gradient-to-r from-blue-400 to-purple-500 min-h-screen flex flex-col justify-center items-center">
-  <!-- 概要 -->
-  <header class="text-white text-center py-8">
-    <h1 class="text-2xl md:text-4xl font-semibold mb-4">感情を共有してパートナーとの絆を深めよう</h1>
-    <p class="text-sm md:text-lg">EmoBridgeは、夫婦やカップルがお互いの感情を理解し、円満なコミュニケーションを図るためのサービスです。</p>
-    <%= image_tag 'undraw_messaging_fun_re_vic9.svg' , class: "w-full h-full py-4"%>
+<div class="min-h-screen flex flex-col items-center px-4 md:px-8 bg-[url('Emobridge.webp')] bg-cover bg-center bg-no-repeat bg-auto">
+<div class="backdrop-blur-sm">
+  <header class="w-full text-center py-8 animate-tracking-in-expand">
+    <h1 class="text-sky-500 font-vibes text-2xl md:text-4xl font-semibold drop-shadow-lg mb-4">EmoBridge</h1>
+    <p class="text-pink-500 font-yomogi text-sm md:text-xl drop-shadow-md">ユーザーの感情を客観的に記録し、その記録をパートナーと共有して円満なコミュニケーションを図るためのサービスです。</p>
   </header>
-
-  <!-- 操作方法 -->
   <section class="text-white text-center py-8">
     <h2 class="text-xl md:text-4xl font-semibold mb-4">操作方法</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <!-- 画像と説明 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
       <div>
       <%= image_tag('Emotion.png', alt: "感情記録", class: "w-120 h-120 md:w-160 md:h-160 mx-auto mb-2") %>
-        <p class="text-lg md:text-2xl">自身の感情を記録し、パートナーへLINE通知できる</p>
+        <p class="text-lg md:text-2xl">感情を記録し、パートナーへLINE通知できる</p>
       </div>
       <div>
         <%= image_tag('history.png', alt: "Emotion履歴", class: "w-120 h-120 md:w-160 md:h-160 mx-auto mb-2") %>
@@ -25,7 +21,8 @@
       </div>
     </div>
     <div class="flex justify-center py-8"> 
-      <%= link_to '今すぐ始める', new_user_path, class: 'btn bg-white text-blue-500 rounded px-4 py-2 text-sm hover:bg-blue-200' %>
+      <%= link_to '今すぐ無料で始める', new_user_path, class: 'bg-gradient-to-r from-cyan-100 to-green-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200' %>
     </div>
   </section>
+  </div>
 </div>
