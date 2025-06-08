@@ -71,6 +71,7 @@ gem 'config'
 
 # SEO対策
 gem 'meta-tags'
+gem 'sitemap_generator'
 
 # RubyによるZIPファイル操作
 gem 'rubyzip', '~> 2.3.0'

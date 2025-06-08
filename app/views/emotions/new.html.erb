@@ -2,10 +2,8 @@
   <div class="container mx-auto p-4">
   <h1 class="text-center text-3xl font-bold py-6">Emotion記録</h1>
     <div class="p-10 shadow-lg rounded-lg bg-white max-w-2xl mx-auto">
-      <!-- フォーム -->
       <%= form_with model: @emotion, local: true, data: { controller: "toggle-form" } do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
-        <!-- 自身の感情記録を入力 -->
         <div class="flex justify-around mb-4 text-2xl" data-controller="emotion">
           <i class="fa-regular fa-face-angry" data-value="angry" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
           <i class="fa-regular fa-face-sad-tear" data-value="sad" data-emotion-target="icon" data-action="click->emotion#selectEmotion" style="cursor: pointer;"></i>
@@ -15,7 +13,6 @@
           <%= f.hidden_field :feeling, id: "emotion_feeling", data: { emotion_target: 'feeling' } %>
         </div>
 
-        <!-- 感情評価を入力 -->
         <%= f.fields_for :emotion_categories do |category_form| %>
           <div class="mb-4">
             <%= category_form.label :rating, "評価", class: "block text-base font-medium text-gray-700" %>
@@ -38,7 +35,6 @@
           </div>
         <% end %>
 
-        <!-- 伝えたいことを入力 -->
         <%= f.fields_for :emotion_message do |message_form| %>
           <%= message_form.hidden_field :user_id, value: current_user.id %>
           <div class="mb-4">
@@ -51,7 +47,6 @@
           </div>
         <% end %>
         
-        <!-- 記録ボタン -->
         <div class="flex justify-center mb-4">
           <%= hidden_field_tag :send_line_message, false, id: "send_line_message" %>
           <%= f.submit "記録", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded", data: { action: "click->toggle-form#confirmSubmission" } %>  

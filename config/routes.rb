@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   get 'privacy_policy', to: 'static_pages#privacy_policy'
   get 'terms_of_service', to: 'static_pages#terms_of_service'
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
-  # ActionCableを有効化
   mount ActionCable.server => '/cable'
   resources :password_resets, only: %i[new create edit update]
   get 'tops/index'
@@ -19,7 +18,6 @@ Rails.application.routes.draw do
   resource :mypage, only: %i[show edit update]
   resources :categories
   resources :message_templates
-  # LINEログイン用
   post "oauth/callback", to: "oauths#callback"
   get "oauth/callback", to: "oauths#callback"
   get "oauth/:provider", to: "oauths#oauth", as: :auth_at_provider
@@ -30,10 +28,9 @@ Rails.application.routes.draw do
   resources :emotion_partners, only: %i[destroy]
   resources :notifications, only: %i[index destroy] do
     collection do
-      get :unread_count # 未読通知数を返すエンドポイント
+      get :unread_count
     end
   end
-  # LINEから投稿用
   post '/', to: 'line_bots#callback'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

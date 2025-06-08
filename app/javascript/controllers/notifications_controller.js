@@ -6,8 +6,8 @@ export default class extends Controller {
 
   connect() {
     console.log("Notifications controller connected")
-    this.checkUnreadNotifications()  // ページロード時に未読通知を確認
-    this.badgeTarget.addEventListener('click', this.toggleBadge.bind(this))  // badgeにクリックイベントを追加
+    this.checkUnreadNotifications()
+    this.badgeTarget.addEventListener('click', this.toggleBadge.bind(this))
   }
 
   toggle(event) {
@@ -22,7 +22,7 @@ export default class extends Controller {
   }
 
   toggleBadge() {
-    this.badgeTarget.classList.toggle("hidden")  // badgeのhiddenクラスをトグル
+    this.badgeTarget.classList.toggle("hidden")
   }
 
   isContainerHidden(container) {
@@ -35,10 +35,10 @@ export default class extends Controller {
 
   loadNotifications() {
     fetch('/notifications')
-      .then(response => response.json())  // JSONレスポンスをパース
+      .then(response => response.json())
       .then(data => {
-        this.updateContainer(data.notifications)  // 通知リストを表示
-        this.updateBadge(data.unread_count > 0)   // 未読があるかチェック
+        this.updateContainer(data.notifications)
+        this.updateBadge(data.unread_count > 0)
       })
       .catch(this.handleError)
   }
@@ -50,17 +50,17 @@ export default class extends Controller {
 
   updateBadge(hasUnreadNotifications) {
     if (hasUnreadNotifications) {
-      this.badgeTarget.classList.remove("hidden")  // 未読があればバッジを表示
+      this.badgeTarget.classList.remove("hidden")
     } else {
-      this.badgeTarget.classList.add("hidden")    // なければ非表示
+      this.badgeTarget.classList.add("hidden")
     }
   }
 
   checkUnreadNotifications() {
-    fetch('/notifications/unread_count')  // サーバーから未読通知数を取得
+    fetch('/notifications/unread_count')
       .then(response => response.json())
       .then(data => {
-        this.updateBadge(data.unread_count > 0)  // 未読数があればバッジを表示
+        this.updateBadge(data.unread_count > 0)
       })
       .catch(this.handleError)
   }
