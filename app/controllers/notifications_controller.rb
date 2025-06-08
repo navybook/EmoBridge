@@ -10,7 +10,6 @@ class NotificationsController < ApplicationController
       }
     else
       @notifications = partner.notifications.order(created_at: :desc).limit(20)
-      # 未読通知を既読に更新する
       @notifications.unread.update_all(status: :read)
 
       render json: {
@@ -34,7 +33,6 @@ class NotificationsController < ApplicationController
     notification = Notification.find(params[:id])
     notification.destroy
 
-    # 通知削除後、Turbo Streamを使用して対象の通知を削除する
     respond_to do |format|
       format.turbo_stream { render turbo_stream: turbo_stream.remove(notification) }
     end

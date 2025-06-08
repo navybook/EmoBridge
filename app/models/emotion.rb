@@ -13,10 +13,8 @@ class Emotion < ApplicationRecord
   before_save :set_feeling_score
   after_create :create_notification
 
-  # accepts_nested_attributes_forの追加
   accepts_nested_attributes_for :emotion_message, :emotion_categories
 
-  # feeling属性のenum設定
   enum feeling: {
     happy: 'fa-regular fa-face-laugh-beam',
     normal: 'fa-regular fa-face-grin-wide',
@@ -41,7 +39,7 @@ class Emotion < ApplicationRecord
 
   def create_notification
     partner = EmotionPartner.find_by(user_id:)
-    return unless partner # パートナーがいない場合は処理を中断
+    return unless partner
 
     Notification.create(
       user_id:,

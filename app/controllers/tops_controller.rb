@@ -6,5 +6,8 @@ class TopsController < ApplicationController
 
   def index; end
 
-  def home; end
+  def home
+    @background_images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg']
+    @random_image = @background_images.sample
+  end
 end

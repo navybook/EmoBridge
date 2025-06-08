@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
-  # ユーザー作成前に実行されるコールバックを設定
   before_create :generate_unique_id
-  # ユーザー作成後に実行されるコールバックを設定
   after_create :assign_default_categories
   after_create :assign_default_message_templates
 
@@ -30,13 +28,11 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
   validates :reset_password_token, uniqueness: true, allow_nil: true
 
-  # パートナーの感情記録を取得するメソッド
   def partner_emotions
     partner_id = EmotionPartner.find_by(user_id: id)&.partner_id
     Emotion.where(user_id: partner_id)
   end
 
-  # 称号を取得するメソッド
   def title
     case received_likes.count
     when 0..9
@@ -54,17 +50,14 @@ class User < ApplicationRecord
 
   private
 
-  # デフォルトカテゴリーをユーザーに割り当てるメソッド
   def assign_default_categories
     default_categories = %w[仕事 家事 趣味]
     default_categories.each do |category_name|
       category = Category.create(name: category_name)
-      # UserCategoryを介してUserとCategoryを関連付ける
       user_categories.create(category:)
     end
   end
 
-  # デフォルトメッセージテンプレートをユーザーに割り当てるメソッド
   def assign_default_message_templates
     default_messages = %w[
       良いことがあったから話を聞いて下さい
@@ -73,13 +66,11 @@ class User < ApplicationRecord
     ]
     default_messages.each do |message|
       message_template = MessageTemplate.create(message:)
-      # UserTemplateを作成してUserとMessageTemplateを関連付ける
       user_templates.create(message_template:)
     end
   end
 
   def generate_unique_id
-    # 一意の8文字のIDを生成
     loop do
       self.unique_id = SecureRandom.hex(4).upcase
       break unless User.exists?(unique_id:)

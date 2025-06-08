@@ -16,7 +16,7 @@ class OauthsController < ApplicationController
     else
       begin
         @user = create_from(provider)
-        reset_session # protect from session fixation attack
+        reset_session
         auto_login(@user)
         redirect_to tops_home_path, notice: "#{provider.titleize}でログインしました"
       rescue

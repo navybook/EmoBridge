@@ -17,11 +17,11 @@ consumer.subscriptions.create("LineNotificationsChannel", {
     }
   
     if (data.status === 'success') {
-      window.location.href = "/tops/home"; // ホーム画面にリダイレクト
-      alert("送信完了しました"); // メッセージを表示
+      window.location.href = "/tops/home";
+      alert("送信完了しました");
     } else if (data.status === 'error') {
       window.location.href = "/tops/home"; //
-      alert("送信できませんでした"); // エラーメッセージを表示
+      alert("送信できませんでした");
     }
   }
 });
