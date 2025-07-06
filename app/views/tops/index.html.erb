@@ -1,28 +1,96 @@
-<div class="min-h-screen flex flex-col items-center px-4 md:px-8 bg-[url('Emobridge.webp')] bg-cover bg-center bg-no-repeat bg-auto">
-<div class="backdrop-blur-sm">
-  <header class="w-full text-center py-8 animate-tracking-in-expand">
-    <h1 class="text-sky-500 font-vibes text-2xl md:text-4xl font-semibold drop-shadow-lg mb-4">EmoBridge</h1>
-    <p class="text-pink-500 font-yomogi text-sm md:text-xl drop-shadow-md">ユーザーの感情を客観的に記録し、その記録をパートナーと共有して円満なコミュニケーションを図るためのサービスです。</p>
-  </header>
-  <section class="text-white text-center py-8">
-    <h2 class="text-xl md:text-4xl font-semibold mb-4">操作方法</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
-      <div>
-      <%= image_tag('Emotion.png', alt: "感情記録", class: "w-120 h-120 md:w-160 md:h-160 mx-auto mb-2") %>
-        <p class="text-lg md:text-2xl">感情を記録し、パートナーへLINE通知できる</p>
+<div class="min-h-screen relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div class="absolute inset-0 bg-[url('Emobridge.webp')] bg-cover bg-center opacity-20"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+  </div>
+
+  <div class="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full opacity-20 animate-bounce"></div>
+  <div class="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full opacity-20 animate-pulse"></div>
+
+  <div class="relative flex flex-col items-center justify-center min-h-screen px-4 md:px-8">
+    <div class="text-center animate-fade-in-up">
+      <div class="">
+        <h1 class="text-6xl md:text-8xl font-vibes bg-gradient-to-r from-sky-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
+          EmoBridge
+        </h1>
+        <p class="text-xl md:text-2xl font-yomogi text-gray-700 max-w-3xl mx-auto leading-relaxed py-4  animate-tracking-in-expand">
+          感情を記録し、パートナーと共有して<br>
+          <span class="text-pink-500 font-semibold">より深い絆</span>を築きませんか？
+        </p>
       </div>
-      <div>
-        <%= image_tag('history.png', alt: "Emotion履歴", class: "w-120 h-120 md:w-160 md:h-160 mx-auto mb-2") %>
-        <p class="text-lg md:text-2xl">感情記録を一覧表示</p>
-      </div>
-      <div>
-        <%= image_tag('Partnerhistory.png', alt: "PartnerEmotion履歴", class: "w-120 h-120 md:w-160 md:h-160 mx-auto mb-2") %>
-        <p class="text-lg md:text-2xl">パートナーの感情記録を一覧表示</p>
+      
+      <div class="space-y-4">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <%= link_to new_user_path, class: 'group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1' do %>
+            <span class="relative z-10">今すぐ無料で始める</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <% end %>
+        </div>
       </div>
     </div>
-    <div class="flex justify-center py-8"> 
-      <%= link_to '今すぐ無料で始める', new_user_path, class: 'bg-gradient-to-r from-cyan-100 to-green-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200' %>
-    </div>
-  </section>
   </div>
 </div>
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        感情を<span class="text-pink-500">記録</span>して
+        <span class="text-blue-500">共有</span>する
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        簡単な操作で感情を記録し、パートナーとのコミュニケーションをより豊かに
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="group relative bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-400 rounded-bl-2xl opacity-10"></div>
+        <div class="relative z-10">
+          <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <i class="fas fa-heart text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">感情記録</h3>
+          <p class="text-gray-600 leading-relaxed">
+            ボタンタップだけで直感的に記録できます。LINE連携してLINEからの記録も可能。
+          </p>
+          <div class="mt-6">
+            <%= image_tag('emotion.gif', alt: "感情記録", class: "w-full h-48 object-cover rounded-lg shadow-md") %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="group relative bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-bl-2xl opacity-10"></div>
+        <div class="relative z-10">
+        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <i class="fas fa-list-ul text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">感情履歴</h3>
+          <p class="text-gray-600 leading-relaxed">
+            自分の感情を見返し、整理できます。感情の変化を把握して自己理解を深めます。
+          </p>
+          <div class="mt-6">
+            <%= image_tag('history.gif', alt: "感情履歴", class: "w-full h-48 object-cover rounded-lg shadow-md") %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="group relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-400 rounded-bl-2xl opacity-10"></div>
+        <div class="relative z-10">
+          <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <i class="fas fa-users text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">パートナー共有</h3>
+          <p class="text-gray-600 leading-relaxed">
+            パートナーの感情も確認できます。お互いの気持ちを理解して絆を深めます。
+          </p>
+          <div class="mt-6">
+            <%= image_tag('partnerhistory.gif', alt: "パートナー履歴", class: "w-full h-48 object-cover rounded-lg shadow-md") %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
