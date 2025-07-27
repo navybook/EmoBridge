@@ -34,12 +34,12 @@ class SendLineMessageJob < ApplicationJob
         message = if message_template == 'その他'
                     {
                       type: 'text',
-                      text: "感情記録が追加されました。\n感情: #{emotion.feeling}\nカテゴリー: #{category_name}\nメッセージ: #{emotion.emotion_message.message}"
+                      text: "感情記録が追加されました。\n感情: #{emotion.feeling_japanese}\nカテゴリー: #{category_name}\nメッセージ: #{emotion.emotion_message.message}"
                     }
                   else
                     {
                       type: 'text',
-                      text: "感情記録が追加されました。\n感情: #{emotion.feeling}\nカテゴリー: #{category_name}\nメッセージ: #{message_template}"
+                      text: "感情記録が追加されました。\n感情: #{emotion.feeling_japanese}\nカテゴリー: #{category_name}\nメッセージ: #{message_template}"
                     }
                   end
 

@@ -1,11 +1,13 @@
 # EmoBridge
-[EmoBridge](https://emobridge.net/)
+サービスURL：[EmoBridge](https://emobridge.net/)
+
+[![Image from Gyazo](https://i.gyazo.com/b5edbcb8f06b5afd876eaaee30d17db5.jpg)](https://gyazo.com/b5edbcb8f06b5afd876eaaee30d17db5)
 
 ## サービス概要
 EmoBridge（エモブリッジ）は夫婦やカップルがお互いの感情を理解し、円満なコミュニケーションを図るためのサービスです。
 
 ## 想定されるユーザー層
-夫婦、カップル
+パートナー（夫婦やカップル）
 
 ## サービスコンセプト
 **EmoBridge（エモブリッジ）は、夫婦やカップルの「気持ちのすれ違い」を防ぐためのアプリです。**
@@ -31,7 +33,13 @@ EmoBridge（エモブリッジ）は夫婦やカップルがお互いの感情�
 
 | 感情記録一覧 | 相手の記録一覧 |
 |:-----------:|:------------:|
-| [![Image from Gyazo](https://i.gyazo.com/e55a0a32e1799e69e00b54b30a786e84.gif)](https://gyazo.com/e55a0a32e1799e69e00b54b30a786e84) | [![Image from Gyazo](https://i.gyazo.com/9c53e1dbfa2f5b7e1725c718c8c85b3e.gif)](https://gyazo.com/9c53e1dbfa2f5b7e1725c718c8c85b3e)|
+| [![Image from Gyazo](https://i.gyazo.com/d17033b938d9a3a81dd1f23373e8ba7d.gif)](https://gyazo.com/d17033b938d9a3a81dd1f23373e8ba7d) | [![Image from Gyazo](https://i.gyazo.com/35ad90eb11a39ed103cbddb56da1d6c3.gif)](https://gyazo.com/35ad90eb11a39ed103cbddb56da1d6c3)|
+
+</br>
+
+| LINEへ通知 | LINEから記録 |
+|:-----------:|:------------:|
+| [![Image from Gyazo](https://i.gyazo.com/4f1c3c27410504c26a54de10a68fe94a.gif)](https://gyazo.com/4f1c3c27410504c26a54de10a68fe94a) | [![Image from Gyazo](https://i.gyazo.com/823d0ecea8c604b6037d54eb7c38f440.gif)](https://gyazo.com/823d0ecea8c604b6037d54eb7c38f440)|
 
 
 ## サービスの差別化ポイント・推しポイント
@@ -48,7 +56,7 @@ EmoBridge（エモブリッジ）は夫婦やカップルがお互いの感情�
 ### MVP
 * 会員登録
 * ログイン
-* 自身の感情選択（感情がわかる顔文字等の絵を選択）
+* 自身の感情選択（感情がわかる顔文字から選択）
 * 感情の詳細入力（使用者が作成したカテゴリー分けされた情報 例：「仕事」「家事」「子育て」「趣味」について５段階評価する）
 * 伝えたいことを入力（テンプレート「話を聞いて」などを選択、あるいは自由記入）
 * 共有先への送信
@@ -60,14 +68,16 @@ EmoBridge（エモブリッジ）は夫婦やカップルがお互いの感情�
 * 共有相手との通知設定（選択すると自動通知する等）
 * 共有相手が適切な対応してくれた数をカウントして称号を付与する
 
-### 機能
-下記の技術の使用予定
-* Ruby
-* Ruby on Rails（ログイン、フォーム画面等）
-* postgresql
-* JavaScript（パートナーに情報を送信するかどうか確認）
-* LINE Messaging API（パートナーに情報をLINE送信）
-* ChatGPT API（その後の機能 感情分析、アドバイス）
+## 使用技術
+
+| 分類         | 技術・サービス         |
+|:------------|:----------------------|
+| バックエンド | Ruby on Rails         |
+| フロントエンド | Hotwire（Turbo/Stimulus），Tailwind CSS |
+| データベース | PostgreSQL            |
+| インフラ     | Fly.io                |
+| CI/CD       | GitHub Actions        |
+| 外部連携    | LINE Messaging API    |
 
 ## 画面遷移図
 https://www.figma.com/file/AkZOpf1wkbdog1Dg8NHUH8/%E8%AA%B2%E9%A1%8C?type=design&node-id=0%3A1&mode=design&t=pEkxj7krkbQMIfUS-1
