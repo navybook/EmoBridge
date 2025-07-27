@@ -3,7 +3,7 @@
     <div class="px-4 py-2 sm:px-6">
       <div class="flex items-center justify-between">
         <h3 class="justify-start text-base sm:text-lg font-medium leading-6 text-gray-900">
-          感情: <%= emotion.feeling %>
+          感情: <%= emotion.feeling_japanese %>
           <i class="<%= icon_for_feeling(emotion.feeling) %>"></i>
         </h3>
         <% if current_user.id == emotion.user.id %>

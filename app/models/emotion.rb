@@ -23,6 +23,23 @@ class Emotion < ApplicationRecord
     angry: 'fa-regular fa-face-angry'
   }
 
+  def feeling_japanese
+    case feeling
+    when 'happy'
+      '嬉しい'
+    when 'normal'
+      '普通'
+    when 'tired'
+      '辛い'
+    when 'sad'
+      '悲しい'
+    when 'angry'
+      '怒り'
+    else
+      feeling
+    end
+  end
+
   private
 
   def set_feeling_score
