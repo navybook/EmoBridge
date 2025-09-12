@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
   end
 
   def check_service_end
-    if Date.today > Date.new(2025, 9, 30)
-      return if controller_name == "tops"
-      redirect_to root_path, alert: 'サービスは終了しました'
-    end
+    return unless Date.today > Date.new(2025, 9, 30)
+    return if controller_name == "tops"
+
+    redirect_to root_path, alert: 'サービスは終了しました'
   end
 end
