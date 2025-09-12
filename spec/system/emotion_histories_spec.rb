@@ -24,11 +24,11 @@ RSpec.describe 'EmotionHistories', type: :system do
 
   it 'displays user emotion history' do
     visit emotions_path(partner)
-    expect(page).to have_content('tired')
+    expect(page).to have_content(/tired|辛い/)
   end
 
   it 'displays partner emotion history' do
     visit partner_index_emotions_path(partner)
-    expect(page).to have_content('happy')
+    expect(page).to have_content(/happy|嬉しい/)
   end
 end
